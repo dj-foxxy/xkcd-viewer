@@ -1,5 +1,5 @@
 all:
 	protoc -I=. --java_out=. --python_out=. comics.proto
-	cp com/appspot/mancocktail/xkcdviewer/ComicProtos.java ../xkcd-viewer/src/com/appspot/mancocktail/xkcdviewer/
-	cp comics_pb2.py  ../xkcd-server/src/server/api/
-
+	mv com/appspot/mancocktail/xkcdviewer/ComicProtos.java ../viewer/src/com/appspot/mancocktail/xkcdviewer/
+	rm -r com
+	mv comics_pb2.py  ../server/src/server/api/
