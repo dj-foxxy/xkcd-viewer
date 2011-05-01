@@ -1,0 +1,22 @@
+package xkcdviewer;
+
+option java_package = "com.appspot.mancocktail.xkcdviewer";
+option java_outer_classname = "ComicProtos";
+
+message ComicList {
+	message Comic {
+		required uint32 number = 1;
+		required string title = 2;
+		required string img_name = 3;
+		
+		enum ImgType {
+			JPG = 0;
+			PNG = 1;
+		}
+		
+		optional ImgType img_type = 4 [default = PNG];
+		required string message = 5;
+	}
+	
+	repeated Comic comics = 1;
+}
