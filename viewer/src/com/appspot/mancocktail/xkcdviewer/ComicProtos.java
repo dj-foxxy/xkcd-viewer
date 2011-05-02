@@ -54,6 +54,7 @@ public final class ComicProtos
             return defaultInstance;
         }
 
+        @Override
         public ComicList getDefaultInstanceForType()
         {
             return defaultInstance;
@@ -65,6 +66,7 @@ public final class ComicProtos
             return com.appspot.mancocktail.xkcdviewer.ComicProtos.internal_static_xkcdviewer_ComicList_descriptor;
         }
 
+        @Override
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
                 internalGetFieldAccessorTable()
         {
@@ -123,6 +125,7 @@ public final class ComicProtos
                 return defaultInstance;
             }
 
+            @Override
             public Comic getDefaultInstanceForType()
             {
                 return defaultInstance;
@@ -134,6 +137,7 @@ public final class ComicProtos
                 return com.appspot.mancocktail.xkcdviewer.ComicProtos.internal_static_xkcdviewer_ComicList_Comic_descriptor;
             }
 
+            @Override
             protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
                     internalGetFieldAccessorTable()
             {
@@ -149,6 +153,7 @@ public final class ComicProtos
                 public static final int JPG_VALUE = 0;
                 public static final int PNG_VALUE = 1;
 
+                @Override
                 public final int getNumber()
                 {
                     return value;
@@ -176,18 +181,21 @@ public final class ComicProtos
                 private static com.google.protobuf.Internal.EnumLiteMap<ImgType> internalValueMap =
                         new com.google.protobuf.Internal.EnumLiteMap<ImgType>()
                         {
+                            @Override
                             public ImgType findValueByNumber(int number)
                             {
                                 return ImgType.valueOf(number);
                             }
                         };
 
+                @Override
                 public final com.google.protobuf.Descriptors.EnumValueDescriptor
                         getValueDescriptor()
                 {
                     return getDescriptor().getValues().get(index);
                 }
 
+                @Override
                 public final com.google.protobuf.Descriptors.EnumDescriptor
                         getDescriptorForType()
                 {
@@ -233,11 +241,13 @@ public final class ComicProtos
             public static final int NUMBER_FIELD_NUMBER = 1;
             private int number_;
 
+            @Override
             public boolean hasNumber()
             {
                 return ((bitField0_ & 0x00000001) == 0x00000001);
             }
 
+            @Override
             public int getNumber()
             {
                 return number_;
@@ -247,11 +257,13 @@ public final class ComicProtos
             public static final int TITLE_FIELD_NUMBER = 2;
             private Object title_;
 
+            @Override
             public boolean hasTitle()
             {
                 return ((bitField0_ & 0x00000002) == 0x00000002);
             }
 
+            @Override
             public String getTitle()
             {
                 Object ref = title_;
@@ -292,11 +304,13 @@ public final class ComicProtos
             public static final int IMG_NAME_FIELD_NUMBER = 3;
             private Object imgName_;
 
+            @Override
             public boolean hasImgName()
             {
                 return ((bitField0_ & 0x00000004) == 0x00000004);
             }
 
+            @Override
             public String getImgName()
             {
                 Object ref = imgName_;
@@ -338,11 +352,13 @@ public final class ComicProtos
             public static final int IMG_TYPE_FIELD_NUMBER = 4;
             private com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType imgType_;
 
+            @Override
             public boolean hasImgType()
             {
                 return ((bitField0_ & 0x00000008) == 0x00000008);
             }
 
+            @Override
             public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType getImgType()
             {
                 return imgType_;
@@ -352,11 +368,13 @@ public final class ComicProtos
             public static final int MESSAGE_FIELD_NUMBER = 5;
             private Object message_;
 
+            @Override
             public boolean hasMessage()
             {
                 return ((bitField0_ & 0x00000010) == 0x00000010);
             }
 
+            @Override
             public String getMessage()
             {
                 Object ref = message_;
@@ -404,6 +422,7 @@ public final class ComicProtos
 
             private byte memoizedIsInitialized = -1;
 
+            @Override
             public final boolean isInitialized()
             {
                 byte isInitialized = memoizedIsInitialized;
@@ -434,6 +453,7 @@ public final class ComicProtos
                 return true;
             }
 
+            @Override
             public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException
             {
@@ -463,6 +483,7 @@ public final class ComicProtos
 
             private int memoizedSerializedSize = -1;
 
+            @Override
             public int getSerializedSize()
             {
                 int size = memoizedSerializedSize;
@@ -606,6 +627,7 @@ public final class ComicProtos
                 return Builder.create();
             }
 
+            @Override
             public Builder newBuilderForType()
             {
                 return newBuilder();
@@ -617,6 +639,7 @@ public final class ComicProtos
                 return newBuilder().mergeFrom(prototype);
             }
 
+            @Override
             public Builder toBuilder()
             {
                 return newBuilder(this);
@@ -641,6 +664,7 @@ public final class ComicProtos
                     return com.appspot.mancocktail.xkcdviewer.ComicProtos.internal_static_xkcdviewer_ComicList_Comic_descriptor;
                 }
 
+                @Override
                 protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
                         internalGetFieldAccessorTable()
                 {
@@ -672,6 +696,7 @@ public final class ComicProtos
                     return new Builder();
                 }
 
+                @Override
                 public Builder clear()
                 {
                     super.clear();
@@ -688,11 +713,13 @@ public final class ComicProtos
                     return this;
                 }
 
+                @Override
                 public Builder clone()
                 {
                     return create().mergeFrom(buildPartial());
                 }
 
+                @Override
                 public com.google.protobuf.Descriptors.Descriptor
                         getDescriptorForType()
                 {
@@ -700,12 +727,14 @@ public final class ComicProtos
                             .getDescriptor();
                 }
 
+                @Override
                 public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic getDefaultInstanceForType()
                 {
                     return com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic
                             .getDefaultInstance();
                 }
 
+                @Override
                 public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic build()
                 {
                     com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic result = buildPartial();
@@ -728,6 +757,7 @@ public final class ComicProtos
                     return result;
                 }
 
+                @Override
                 public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic buildPartial()
                 {
                     com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic result = new com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic(
@@ -764,6 +794,7 @@ public final class ComicProtos
                     return result;
                 }
 
+                @Override
                 public Builder mergeFrom(com.google.protobuf.Message other)
                 {
                     if (other instanceof com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic)
@@ -807,6 +838,7 @@ public final class ComicProtos
                     return this;
                 }
 
+                @Override
                 public final boolean isInitialized()
                 {
                     if (!hasNumber())
@@ -832,6 +864,7 @@ public final class ComicProtos
                     return true;
                 }
 
+                @Override
                 public Builder mergeFrom(
                         com.google.protobuf.CodedInputStream input,
                         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -909,11 +942,13 @@ public final class ComicProtos
                 // required uint32 number = 1;
                 private int number_;
 
+                @Override
                 public boolean hasNumber()
                 {
                     return ((bitField0_ & 0x00000001) == 0x00000001);
                 }
 
+                @Override
                 public int getNumber()
                 {
                     return number_;
@@ -938,11 +973,13 @@ public final class ComicProtos
                 // required string title = 2;
                 private Object title_ = "";
 
+                @Override
                 public boolean hasTitle()
                 {
                     return ((bitField0_ & 0x00000002) == 0x00000002);
                 }
 
+                @Override
                 public String getTitle()
                 {
                     Object ref = title_;
@@ -988,11 +1025,13 @@ public final class ComicProtos
                 // required string img_name = 3;
                 private Object imgName_ = "";
 
+                @Override
                 public boolean hasImgName()
                 {
                     return ((bitField0_ & 0x00000004) == 0x00000004);
                 }
 
+                @Override
                 public String getImgName()
                 {
                     Object ref = imgName_;
@@ -1039,11 +1078,13 @@ public final class ComicProtos
                 // [default = PNG];
                 private com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType imgType_ = com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType.PNG;
 
+                @Override
                 public boolean hasImgType()
                 {
                     return ((bitField0_ & 0x00000008) == 0x00000008);
                 }
 
+                @Override
                 public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType getImgType()
                 {
                     return imgType_;
@@ -1073,11 +1114,13 @@ public final class ComicProtos
                 // required string message = 5;
                 private Object message_ = "";
 
+                @Override
                 public boolean hasMessage()
                 {
                     return ((bitField0_ & 0x00000010) == 0x00000010);
                 }
 
+                @Override
                 public String getMessage()
                 {
                     Object ref = message_;
@@ -1136,27 +1179,32 @@ public final class ComicProtos
         public static final int COMICS_FIELD_NUMBER = 1;
         private java.util.List<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic> comics_;
 
+        @Override
         public java.util.List<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic> getComicsList()
         {
             return comics_;
         }
 
+        @Override
         public java.util.List<? extends com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder>
                 getComicsOrBuilderList()
         {
             return comics_;
         }
 
+        @Override
         public int getComicsCount()
         {
             return comics_.size();
         }
 
+        @Override
         public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic getComics(int index)
         {
             return comics_.get(index);
         }
 
+        @Override
         public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder getComicsOrBuilder(
                 int index)
         {
@@ -1170,6 +1218,7 @@ public final class ComicProtos
 
         private byte memoizedIsInitialized = -1;
 
+        @Override
         public final boolean isInitialized()
         {
             byte isInitialized = memoizedIsInitialized;
@@ -1188,6 +1237,7 @@ public final class ComicProtos
             return true;
         }
 
+        @Override
         public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException
         {
@@ -1201,6 +1251,7 @@ public final class ComicProtos
 
         private int memoizedSerializedSize = -1;
 
+        @Override
         public int getSerializedSize()
         {
             int size = memoizedSerializedSize;
@@ -1323,6 +1374,7 @@ public final class ComicProtos
             return Builder.create();
         }
 
+        @Override
         public Builder newBuilderForType()
         {
             return newBuilder();
@@ -1334,6 +1386,7 @@ public final class ComicProtos
             return newBuilder().mergeFrom(prototype);
         }
 
+        @Override
         public Builder toBuilder()
         {
             return newBuilder(this);
@@ -1357,6 +1410,7 @@ public final class ComicProtos
                 return com.appspot.mancocktail.xkcdviewer.ComicProtos.internal_static_xkcdviewer_ComicList_descriptor;
             }
 
+            @Override
             protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
                     internalGetFieldAccessorTable()
             {
@@ -1389,6 +1443,7 @@ public final class ComicProtos
                 return new Builder();
             }
 
+            @Override
             public Builder clear()
             {
                 super.clear();
@@ -1404,23 +1459,27 @@ public final class ComicProtos
                 return this;
             }
 
+            @Override
             public Builder clone()
             {
                 return create().mergeFrom(buildPartial());
             }
 
+            @Override
             public com.google.protobuf.Descriptors.Descriptor
                     getDescriptorForType()
             {
                 return com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.getDescriptor();
             }
 
+            @Override
             public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList getDefaultInstanceForType()
             {
                 return com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList
                         .getDefaultInstance();
             }
 
+            @Override
             public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList build()
             {
                 com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList result = buildPartial();
@@ -1443,6 +1502,7 @@ public final class ComicProtos
                 return result;
             }
 
+            @Override
             public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList buildPartial()
             {
                 com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList result = new com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList(
@@ -1466,6 +1526,7 @@ public final class ComicProtos
                 return result;
             }
 
+            @Override
             public Builder mergeFrom(com.google.protobuf.Message other)
             {
                 if (other instanceof com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList)
@@ -1525,6 +1586,7 @@ public final class ComicProtos
                 return this;
             }
 
+            @Override
             public final boolean isInitialized()
             {
                 for (int i = 0; i < getComicsCount(); i++)
@@ -1538,6 +1600,7 @@ public final class ComicProtos
                 return true;
             }
 
+            @Override
             public Builder mergeFrom(
                     com.google.protobuf.CodedInputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1596,6 +1659,7 @@ public final class ComicProtos
 
             private com.google.protobuf.RepeatedFieldBuilder<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic, com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder, com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder> comicsBuilder_;
 
+            @Override
             public java.util.List<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic> getComicsList()
             {
                 if (comicsBuilder_ == null)
@@ -1608,6 +1672,7 @@ public final class ComicProtos
                 }
             }
 
+            @Override
             public int getComicsCount()
             {
                 if (comicsBuilder_ == null)
@@ -1620,6 +1685,7 @@ public final class ComicProtos
                 }
             }
 
+            @Override
             public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic getComics(
                     int index)
             {
@@ -1795,6 +1861,7 @@ public final class ComicProtos
                 return getComicsFieldBuilder().getBuilder(index);
             }
 
+            @Override
             public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder getComicsOrBuilder(
                     int index)
             {
@@ -1808,6 +1875,7 @@ public final class ComicProtos
                 }
             }
 
+            @Override
             public java.util.List<? extends com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder>
                     getComicsOrBuilderList()
             {
@@ -1905,6 +1973,7 @@ public final class ComicProtos
         com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
                 new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner()
                 {
+                    @Override
                     public com.google.protobuf.ExtensionRegistry assignDescriptors(
                             com.google.protobuf.Descriptors.FileDescriptor root)
                     {

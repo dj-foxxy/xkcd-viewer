@@ -5,11 +5,11 @@ import android.graphics.Bitmap;
 public class Comic
 {
     private final Bitmap mImage;
-    private final int mNumber;
+    private final long mNumber;
     private final String mTitle;
     private final String mMessage;
-    
-    public Comic(final Bitmap image, final int number, final String title, final String message)
+
+    public Comic(final Bitmap image, final long number, final String title, final String message)
     {
         mImage = image;
         mNumber = number;
@@ -22,7 +22,7 @@ public class Comic
         return mImage;
     }
 
-    public int getNumber()
+    public long getNumber()
     {
         return mNumber;
     }

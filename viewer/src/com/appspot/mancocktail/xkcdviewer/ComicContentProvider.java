@@ -29,7 +29,7 @@ public class ComicContentProvider extends ContentProvider
             Uri.parse(ContentResolver.SCHEME_CONTENT + "://" + AUTHORITY);
     private static final String CONTENT_TYPE_TEMPLATE = "vnd.android.cursor.%s/vnd.mancocktail.%s";
 
-    public static class Comic implements BaseColumns
+    public static class ComicTable implements BaseColumns
     {
         private static final String CONTENT_URI_PATH = "comics";
         public static final Uri CONTENT_URI = Uri.withAppendedPath(CONTENT_URI_BASE,
@@ -87,15 +87,15 @@ public class ComicContentProvider extends ContentProvider
         {
             //@formatter:off
             final String sql =
-            "CREATE TABLE " + Comic.TABLE_NAME + '\n' +
+            "CREATE TABLE " + ComicTable.TABLE_NAME + '\n' +
             "(\n\t" +
-                Comic.NUMBER         + " INTEGER PRIMARY KEY,\n\t" +
-                Comic.TITLE          + " TEXT,\n\t" +
-                Comic.IMG_NAME       + " TEXT,\n\t" +
-                Comic.IMG_TYPE       + " INTEGER,\n\t" +
-                Comic.MESSAGE        + " TEXT,\n\t" +
-                Comic.IMG_SYNC_STATE + " INTEGER NOT NULL DEFAULT "
-                        + Comic.IMG_SYNC_STATE_SYNCING + '\n' +
+                ComicTable.NUMBER         + " INTEGER PRIMARY KEY,\n\t" +
+                ComicTable.TITLE          + " TEXT,\n\t" +
+                ComicTable.IMG_NAME       + " TEXT,\n\t" +
+                ComicTable.IMG_TYPE       + " INTEGER,\n\t" +
+                ComicTable.MESSAGE        + " TEXT,\n\t" +
+                ComicTable.IMG_SYNC_STATE + " INTEGER NOT NULL DEFAULT "
+                            + ComicTable.IMG_SYNC_STATE_SYNCING + '\n' +
             ");";
             //@formatter:on
             Log.v(TAG, sql);
@@ -106,7 +106,7 @@ public class ComicContentProvider extends ContentProvider
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
             Log.w(TAG, "Updating DB from version " + oldVersion + " to verison " + newVersion);
-            db.execSQL("DROP TABLE IF EXISTS " + Comic.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + ComicTable.TABLE_NAME);
             onCreate(db);
         }
     }
@@ -117,8 +117,8 @@ public class ComicContentProvider extends ContentProvider
 
     static
     {
-        sUriMatcher.addURI(AUTHORITY, Comic.CONTENT_URI_PATH, URI_COMICS);
-        sUriMatcher.addURI(AUTHORITY, Comic.CONTENT_URI_PATH + "/#", URI_COMIC);
+        sUriMatcher.addURI(AUTHORITY, ComicTable.CONTENT_URI_PATH, URI_COMICS);
+        sUriMatcher.addURI(AUTHORITY, ComicTable.CONTENT_URI_PATH + "/#", URI_COMIC);
     }
 
     private ComicDbOpenHelper mOpenHelper;
@@ -142,7 +142,7 @@ public class ComicContentProvider extends ContentProvider
         try
         {
             db = mOpenHelper.getWritableDatabase();
-            comicId = db.insertOrThrow(Comic.TABLE_NAME, Comic.TITLE, values);
+            comicId = db.insertOrThrow(ComicTable.TABLE_NAME, ComicTable.TITLE, values);
         }
         finally
         {
@@ -151,8 +151,9 @@ public class ComicContentProvider extends ContentProvider
                 db.close();
             }
         }
-        final Uri comicUri = ContentUris.withAppendedId(Comic.CONTENT_URI, comicId);
+        final Uri comicUri = ContentUris.withAppendedId(ComicTable.CONTENT_URI, comicId);
         getContext().getContentResolver().notifyChange(comicUri, null);
+        Log.d(TAG, "Returning " + comicUri);
         return comicUri;
     }
 
@@ -164,12 +165,12 @@ public class ComicContentProvider extends ContentProvider
         switch (sUriMatcher.match(uri))
         {
             case URI_COMIC:
-                qb.appendWhere(Comic.NUMBER + '=' + ContentUris.parseId(uri));
+                qb.appendWhere(ComicTable.NUMBER + '=' + ContentUris.parseId(uri));
             case URI_COMICS:
-                qb.setTables(Comic.TABLE_NAME);
+                qb.setTables(ComicTable.TABLE_NAME);
                 if (!TextUtils.isEmpty(sortOrder))
                 {
-                    sortOrder = Comic.DEFAULT_SORT;
+                    sortOrder = ComicTable.DEFAULT_SORT;
                 }
                 break;
             default:
@@ -228,7 +229,7 @@ public class ComicContentProvider extends ContentProvider
 
         if (matchCode == URI_COMIC)
         {
-            selection = Comic.NUMBER + '=' + ContentUris.parseId(uri)
+            selection = ComicTable.NUMBER + '=' + ContentUris.parseId(uri)
                     + (TextUtils.isEmpty(selection) ? "" : " AND (" + selection + ')');
         }
 
@@ -239,11 +240,11 @@ public class ComicContentProvider extends ContentProvider
             db = mOpenHelper.getWritableDatabase();
             if (doUpdate)
             {
-                count = db.update(Comic.TABLE_NAME, values, selection, selectionArgs);
+                count = db.update(ComicTable.TABLE_NAME, values, selection, selectionArgs);
             }
             else
             {
-                count = db.delete(Comic.TABLE_NAME, selection, selectionArgs);
+                count = db.delete(ComicTable.TABLE_NAME, selection, selectionArgs);
             }
         }
         finally
@@ -255,16 +256,15 @@ public class ComicContentProvider extends ContentProvider
         }
 
         /*
-         * This MUST only be called after the database is closed. Otherwise, you
-         * get a bunch of race conditions.
+         * This MUST be called after the database is closed. Otherwise, you get
+         * a bunch of race conditions.
          */
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
     }
 
     @Override
-    public ParcelFileDescriptor openFile(final Uri comicUri, final String
-            mode)
+    public ParcelFileDescriptor openFile(final Uri comicUri, final String mode)
             throws FileNotFoundException
     {
         if (sUriMatcher.match(comicUri) != URI_COMIC)
@@ -298,6 +298,7 @@ public class ComicContentProvider extends ContentProvider
             throw new FileNotFoundException("Unsupported mode: " + mode);
         }
 
+        // Check that the comic exists.
         Cursor cursor = null;
         try
         {
@@ -305,7 +306,6 @@ public class ComicContentProvider extends ContentProvider
                     null, null, null);
             if (cursor == null || cursor.getCount() != 1)
             {
-                Log.d(TAG, "Count: " + cursor.getCount());
                 throw new FileNotFoundException("No comic exists at " + comicUri);
             }
         }
@@ -338,9 +338,9 @@ public class ComicContentProvider extends ContentProvider
         switch (sUriMatcher.match(uri))
         {
             case URI_COMICS:
-                return Comic.CONTENT_TYPE;
+                return ComicTable.CONTENT_TYPE;
             case URI_COMIC:
-                return Comic.CONTENT_ITEM_TYPE;
+                return ComicTable.CONTENT_ITEM_TYPE;
             default:
                 throw new IllegalArgumentException("Illegal URI: " + uri);
         }

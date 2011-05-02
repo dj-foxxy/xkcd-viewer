@@ -6,7 +6,8 @@
 	android:layout_height="fill_parent">
 	<ImageView
 		android:id="@+id/comic"
+		android:background="#FFFFFF"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:onClick="onImageClick"/>
+		android:onClick="onImageClick" />
 </LinearLayout>

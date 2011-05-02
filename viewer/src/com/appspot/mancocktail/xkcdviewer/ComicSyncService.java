@@ -3,13 +3,14 @@ package com.appspot.mancocktail.xkcdviewer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.IntentService;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
@@ -17,7 +18,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
-import com.appspot.mancocktail.xkcdviewer.ComicContentProvider.Comic;
+import com.appspot.mancocktail.xkcdviewer.ComicContentProvider.ComicTable;
 import com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList;
 
 public class ComicSyncService extends IntentService
@@ -39,7 +40,7 @@ public class ComicSyncService extends IntentService
     public void onCreate()
     {
         super.onCreate();
-        mClient = new GZipHttpClient();
+        mClient = new DefaultHttpClient();
         mResolver = getContentResolver();
     }
 
@@ -51,7 +52,7 @@ public class ComicSyncService extends IntentService
         if (Intent.ACTION_SYNC.equals(action))
         {
             Log.d(TAG, "Starting sync");
-            sync();
+            syncComics();
         }
         else if (ACTION_DOWNLOAD.equals(action))
         {
@@ -64,56 +65,22 @@ public class ComicSyncService extends IntentService
         }
     }
 
-    private void sync()
+    private void syncComics()
     {
         final HttpGet request = new HttpGet(
                 "http://192.168.1.80:8000/comics/?after=" + latestNumber());
 
-        ComicList comics = null;
-        boolean syncError = false;
         try
         {
-            comics = ComicList.parseFrom(mClient.execute(request).getEntity().getContent());
+            insertComics(ComicList.parseFrom(mClient.execute(request).getEntity().getContent()));
         }
         catch (IOException e)
         {
-            Log.e(TAG, "Failed to sync comics.", e);
-            syncError = true;
+            Log.w(TAG, "Failed to sync comics.", e);
         }
-
-        if (!syncError && comics.getComicsCount() > 0)
-        {
-            final Uri latestComic = bulkInsert(comics);
-            if (latestComic != null)
-            {
-                final Editor editor = Preferences.getPreferences(this).edit();
-                editor.putLong(Preferences.COMIC_LAST, ContentUris.parseId(latestComic));
-                editor.commit();
-            }
-        }
-    }
-
-    private Uri bulkInsert(final ComicList comics)
-    {
-        final ContentResolver resolver = getContentResolver();
-        Uri latestComic = null;
-        final ContentValues values = new ContentValues(5);
-        for (ComicList.Comic comic : comics.getComicsList())
-        {
-            values.put(Comic.NUMBER, comic.getNumber());
-            values.put(Comic.TITLE, comic.getTitle());
-            values.put(Comic.IMG_NAME, comic.getImgName());
-            values.put(Comic.IMG_TYPE, comic.getImgType().getNumber());
-            values.put(Comic.MESSAGE, comic.getMessage());
-            latestComic = resolver.insert(Comic.CONTENT_URI, values);
-            if (latestComic == null)
-            {
-                Log.e(TAG, "Failed to insert comic!");
-                return null;
-            }
-            Log.d(TAG, "Synced " + latestComic);
-        }
-        return latestComic;
+        final Editor editor = getSharedPreferences(Prefs.NAME, MODE_PRIVATE).edit();
+        editor.putLong(Prefs.LAST_SYNC, new Date().getTime());
+        editor.commit();
     }
 
     private int latestNumber()
@@ -121,8 +88,8 @@ public class ComicSyncService extends IntentService
         Cursor cursor = null;
         try
         {
-            cursor = mResolver.query(Comic.CONTENT_URI,
-                    new String[] { "max(" + Comic.NUMBER + ')' }, null, null, null);
+            cursor = mResolver.query(ComicTable.CONTENT_URI,
+                    new String[] { "max(" + ComicTable.NUMBER + ')' }, null, null, null);
             /*
              * There is always a first row. If there are no comics, the max
              * comic number is 0.
@@ -146,9 +113,28 @@ public class ComicSyncService extends IntentService
         }
     }
 
+    private void insertComics(final ComicList comics)
+    {
+        final ContentResolver resolver = getContentResolver();
+        final ContentValues values = new ContentValues(5);
+        for (ComicList.Comic comic : comics.getComicsList())
+        {
+            values.put(ComicTable.NUMBER, comic.getNumber());
+            values.put(ComicTable.TITLE, comic.getTitle());
+            values.put(ComicTable.IMG_NAME, comic.getImgName());
+            values.put(ComicTable.IMG_TYPE, comic.getImgType().getNumber());
+            values.put(ComicTable.MESSAGE, comic.getMessage());
+            // This returns null, but does correctly insert.
+            if (resolver.insert(ComicTable.CONTENT_URI, values) == null);
+            {
+                Log.e(TAG, "Failed to insert comic with values " + values);
+            }
+        }
+    }
+
     private void syncImage(final Uri comic)
     {
-        int imgSyncState = Comic.IMG_SYNC_STATE_OK;
+        int imgSyncState = ComicTable.IMG_SYNC_STATE_OK;
 
         try
         {
@@ -157,12 +143,13 @@ public class ComicSyncService extends IntentService
         catch (IOException e)
         {
             Log.e(TAG, "Failed to sync image for " + comic, e);
-            imgSyncState = Comic.IMG_SYNC_STATE_ERROR;
+            imgSyncState = ComicTable.IMG_SYNC_STATE_ERROR;
         }
 
         // Update sync state.
         final ContentValues values = new ContentValues(1);
-        values.put(Comic.IMG_SYNC_STATE, imgSyncState);
+        values.put(ComicTable.IMG_SYNC_STATE, imgSyncState);
+        Log.d(TAG, "Setting " + comic + " to " + imgSyncState);
         if (getContentResolver().update(comic, values, null, null) != 1)
         {
             Log.e(TAG, "Incorrect number of rows updated.");
@@ -175,13 +162,13 @@ public class ComicSyncService extends IntentService
         try
         {
             cursor = getContentResolver().query(comic,
-                    new String[] { Comic.IMG_NAME, Comic.IMG_TYPE }, null, null, null);
+                    new String[] { ComicTable.IMG_NAME, ComicTable.IMG_TYPE }, null, null, null);
             if (cursor == null || !cursor.moveToFirst())
             {
                 throw new IllegalArgumentException("No comic at URI \"" + comic + "\".");
             }
             return new HttpGet("http://imgs.xkcd.com/comics/" + cursor.getString(0)
-                    + Comic.getExt(cursor.getInt(1)));
+                    + ComicTable.getExt(cursor.getInt(1)));
         }
         finally
         {
@@ -192,15 +179,14 @@ public class ComicSyncService extends IntentService
         }
     }
 
-    private void downloadImage(final Uri comic, final HttpGet request)
-            throws IOException
+    private void downloadImage(final Uri comic, final HttpGet request) throws IOException
     {
         InputStream in = null;
         OutputStream out = null;
         try
         {
             in = mClient.execute(request).getEntity().getContent();
-            out = mResolver.openOutputStream(comic);
+            out = getContentResolver().openOutputStream(comic);
             final byte[] buffer = new byte[BUFFER_SIZE_BYTES];
             for (int read; (read = in.read(buffer)) != -1;)
             {
@@ -209,6 +195,7 @@ public class ComicSyncService extends IntentService
         }
         finally
         {
+
             if (in != null)
             {
                 try
@@ -222,6 +209,7 @@ public class ComicSyncService extends IntentService
                         out.close();
                     }
                 }
+
             }
         }
     }

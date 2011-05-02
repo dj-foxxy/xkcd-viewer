@@ -16,6 +16,7 @@
 	<item
 		android:id="@+id/last"
 		android:title="Last" />
+	<item android:title="Sync" android:id="@+id/sync"></item>
 </menu>
 
 
