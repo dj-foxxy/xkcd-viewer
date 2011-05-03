@@ -68,7 +68,7 @@ public class ComicSyncService extends IntentService
     private void syncComics()
     {
         final HttpGet request = new HttpGet(
-                "http://192.168.1.80:8000/comics/?after=" + latestNumber());
+                "http://rpc143.cs.man.ac.uk:8000/comics/?after=" + latestNumber());
 
         try
         {

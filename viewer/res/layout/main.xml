@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="#FFFFFF"
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
 	<ImageView
 		android:id="@+id/comic"
-		android:background="#FFFFFF"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:onClick="onImageClick" />
-</LinearLayout>
+		android:layout_gravity="center"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:onClick="onImageClick"
+		android:padding="2dip" />
+</FrameLayout>

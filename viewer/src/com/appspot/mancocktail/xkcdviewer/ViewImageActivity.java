@@ -36,50 +36,33 @@ import com.appspot.mancocktail.xkcdviewer.ComicContentProvider.ComicTable;
 public class ViewImageActivity extends Activity
 {
     private static final String TAG = "ViewImageActivity";
-
-    private SharedPreferences mPrefsCache = null;
-
-    /*
-     * Do no call on the main thread!
-     */
-    private SharedPreferences getSharedPreferences()
-    {
-        if (mPrefsCache == null)
-        {
-            mPrefsCache = getSharedPreferences(Prefs.NAME, MODE_PRIVATE);
-        }
-        return mPrefsCache;
-    }
-
-    private Cursor mComics = null;
+    private static final int DIALOG_ID_COMIC_INFO = 1;
+    private static final String DIALOG_EXTRA_TITLE = "title";
+    private static final String DIALOG_EXTRA_MESSAGE = "message";
     private boolean isOnlineCursor = true;
+    private Comic mComic;
+    private ConnectivityManager mConnectivityManager;
+    private Cursor mCursor;
+    private ImageView mImage;
+    private LoadComicTask mLoadComicTask;
+    private LoadComicsCursorTask mLoadComicsCursorTask;
+    private LoadSharedPreferences mInitialActivityTask;
+    private SharedPreferences mPrefsCache;
 
-    private final class InitialActivity extends AsyncTask<Void, Void, Void>
+    private final class LoadSharedPreferences extends AsyncTask<Void, Void, SharedPreferences>
     {
         @Override
-        protected Void doInBackground(Void... params)
+        protected SharedPreferences doInBackground(Void... params)
         {
-            final SharedPreferences prefs = getSharedPreferences();
+            return getSharedPreferences(Prefs.NAME, MODE_PRIVATE);
+        }
+
+        @Override
+        protected void onPostExecute(SharedPreferences prefs)
+        {
+            mPrefsCache = prefs;
             prefs.registerOnSharedPreferenceChangeListener(mSyncListener);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result)
-        {
             startLoadComicsCursorTask();
-        }
-    }
-
-    private final class FinaliseActivityTask extends AsyncTask<Void, Void, Void>
-    {
-        @Override
-        protected Void doInBackground(Void... params)
-        {
-            final SharedPreferences prefs = getSharedPreferences();
-            prefs.unregisterOnSharedPreferenceChangeListener(mSyncListener);
-            Log.d(TAG, "Unregisted.");
-            return null;
         }
     }
 
@@ -88,7 +71,7 @@ public class ViewImageActivity extends Activity
         @Override
         protected Cursor doInBackground(Void... params)
         {
-            final String selection = isOnlineCursor ? null : ComicTable.IMG_SYNC_STATE + '='
+            final String selection = isOnlineCursor ? null : ComicTable.IMG_SYNC_STATE + "="
                     + ComicTable.IMG_SYNC_STATE_OK;
 
             final Cursor comics = managedQuery(ComicTable.CONTENT_URI, null, selection, null, null);
@@ -97,8 +80,7 @@ public class ViewImageActivity extends Activity
                 return null;
             }
 
-            final SharedPreferences prefs = getSharedPreferences();
-            final long currentComic = prefs.getLong(Prefs.COMIC_CURRENT, -1);
+            final long currentComic = mPrefsCache.getLong(Prefs.COMIC_CURRENT, -1);
 
             // If a comic has been viewed and we have comics, try to find it in
             // the cursor.
@@ -121,21 +103,19 @@ public class ViewImageActivity extends Activity
         @Override
         protected void onPostExecute(Cursor comics)
         {
-            if (mComics != null)
+            if (mCursor != null)
             {
-                stopManagingCursor(mComics);
-                mComics.close();
+                stopManagingCursor(mCursor);
+                mCursor.close();
             }
-            mComics = comics;
-            Log.d(TAG, "Cursor " + mComics);
-            if (mComics != null && mComics.getCount() > 0)
+            mCursor = comics;
+            Log.d(TAG, "Cursor " + mCursor);
+            if (mCursor != null && mCursor.getCount() > 0)
             {
                 startLoadComicTask();
             }
         }
     }
-
-    private Comic mComic = null;
 
     private final class LoadComicTask extends AsyncTask<Cursor, Void, Comic>
     {
@@ -148,7 +128,7 @@ public class ViewImageActivity extends Activity
 
             final long number = comics.getLong(comics.getColumnIndexOrThrow(ComicTable.NUMBER));
 
-            final Editor editor = getSharedPreferences().edit();
+            final Editor editor = mPrefsCache.edit();
             editor.putLong(Prefs.COMIC_CURRENT, number);
             if (!editor.commit())
             {
@@ -159,6 +139,8 @@ public class ViewImageActivity extends Activity
             final Uri comicUri = ContentUris.withAppendedId(ComicTable.CONTENT_URI, number);
             final ContentResolver resolver = getContentResolver();
 
+            Log.d(TAG, "Sync state: " + comics.getInt(comics
+                    .getColumnIndexOrThrow(ComicTable.IMG_SYNC_STATE)));
             if (ComicTable.IMG_SYNC_STATE_OK != comics.getInt(comics
                     .getColumnIndexOrThrow(ComicTable.IMG_SYNC_STATE)))
             {
@@ -237,8 +219,6 @@ public class ViewImageActivity extends Activity
         }
     }
 
-    private ImageView mImage;
-
     private final BroadcastReceiver mNetworkStateChangeReceiver = new BroadcastReceiver()
     {
         @Override
@@ -268,8 +248,6 @@ public class ViewImageActivity extends Activity
         }
     };
 
-    private InitialActivity mInitialActivityTask = null;
-
     @Override
     protected void onCreate(final Bundle savedInstanceState)
     {
@@ -277,21 +255,21 @@ public class ViewImageActivity extends Activity
         setContentView(R.layout.main);
         mImage = (ImageView) findViewById(R.id.comic);
 
+        mConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         isOnlineCursor = shouldBeOnlineCursor();
         registerReceiver(mNetworkStateChangeReceiver, new IntentFilter(
                 ConnectivityManager.CONNECTIVITY_ACTION));
-        mInitialActivityTask = (InitialActivity) new InitialActivity().execute((Void) null);
+        mCursor = (Cursor) getLastNonConfigurationInstance();
+        mInitialActivityTask = (LoadSharedPreferences) new LoadSharedPreferences()
+                .execute((Void) null);
 
     }
 
     private boolean shouldBeOnlineCursor()
     {
-        final NetworkInfo info = ((ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE))
-                .getActiveNetworkInfo();
+        final NetworkInfo info = mConnectivityManager.getActiveNetworkInfo();
         return info != null && info.getState() == NetworkInfo.State.CONNECTED;
     }
-
-    private LoadComicsCursorTask mLoadComicsCursorTask = null;
 
     private void startLoadComicsCursorTask()
     {
@@ -303,15 +281,13 @@ public class ViewImageActivity extends Activity
                 .execute((Void) null);
     }
 
-    private LoadComicTask mLoadComicTask = null;
-
     private void startLoadComicTask()
     {
         if (mLoadComicTask != null)
         {
             mLoadComicTask.cancel(true);
         }
-        mLoadComicTask = (LoadComicTask) new LoadComicTask().execute(mComics);
+        mLoadComicTask = (LoadComicTask) new LoadComicTask().execute(mCursor);
     }
 
     private void displayComic()
@@ -321,10 +297,6 @@ public class ViewImageActivity extends Activity
             mImage.setImageBitmap(mComic.getImage());
         }
     }
-
-    private static final int DIALOG_ID_COMIC_INFO = 1;
-    private static final String DIALOG_EXTRA_TITLE = "title";
-    private static final String DIALOG_EXTRA_MESSAGE = "message";
 
     @Override
     protected Dialog onCreateDialog(final int id, final Bundle args)
@@ -344,8 +316,15 @@ public class ViewImageActivity extends Activity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        Log.d(TAG, "Inflating menu");
         getMenuInflater().inflate(R.menu.view_menu, menu);
         return true;
+    }
+
+    @Override
+    public Object onRetainNonConfigurationInstance()
+    {
+        return mCursor;
     }
 
     @Override
@@ -354,32 +333,32 @@ public class ViewImageActivity extends Activity
         switch (item.getItemId())
         {
             case R.id.first:
-                if (mComics != null && mComics.moveToFirst())
+                if (mCursor != null && !mCursor.isFirst() && mCursor.moveToFirst())
                 {
                     startLoadComicTask();
                 }
                 return true;
             case R.id.prev:
-                if (mComics != null && !mComics.isFirst() && mComics.moveToPrevious())
+                if (mCursor != null && !mCursor.isFirst() && mCursor.moveToPrevious())
                 {
                     startLoadComicTask();
                 }
                 return true;
             case R.id.rand:
-                if (mComics != null
-                        && mComics.moveToPosition((int) (Math.random() * mComics.getCount())))
+                if (mCursor != null
+                        && mCursor.moveToPosition((int) (Math.random() * mCursor.getCount())))
                 {
                     startLoadComicTask();
                 }
                 return true;
             case R.id.next:
-                if (mComics != null && !mComics.isLast() && mComics.moveToNext())
+                if (mCursor != null && !mCursor.isLast() && mCursor.moveToNext())
                 {
                     startLoadComicTask();
                 }
                 return true;
             case R.id.last:
-                if (mComics != null && mComics.moveToLast())
+                if (mCursor != null && mCursor.moveToLast())
                 {
                     startLoadComicTask();
                 }
@@ -394,13 +373,26 @@ public class ViewImageActivity extends Activity
         }
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(final Menu menu)
+    {
+        menu.getItem(0).setEnabled(mCursor != null && !mCursor.isFirst());
+        menu.getItem(1).setEnabled(mCursor != null && !mCursor.isFirst());
+        menu.getItem(2).setEnabled(mCursor != null && mCursor.getCount() > 0);
+        menu.getItem(3).setEnabled(mCursor != null && !mCursor.isLast());
+        menu.getItem(4).setEnabled(mCursor != null && !mCursor.isLast());
+        menu.getItem(5).setEnabled(isOnlineCursor);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     public void onImageClick(final View view)
     {
         if (mComic == null)
             return;
 
         final Bundle dialogArgs = new Bundle(2);
-        dialogArgs.putString(DIALOG_EXTRA_TITLE, mComic.getTitle());
+        dialogArgs.putString(DIALOG_EXTRA_TITLE,
+                "[" + mComic.getNumber() + "] " + mComic.getTitle());
         dialogArgs.putString(DIALOG_EXTRA_MESSAGE, mComic.getMessage());
         removeDialog(DIALOG_ID_COMIC_INFO);
         showDialog(DIALOG_ID_COMIC_INFO, dialogArgs);
@@ -428,7 +420,10 @@ public class ViewImageActivity extends Activity
     protected void onDestroy()
     {
         unregisterReceiver(mNetworkStateChangeReceiver);
-        new FinaliseActivityTask().execute((Void) null);
+        if (mPrefsCache != null)
+        {
+            mPrefsCache.unregisterOnSharedPreferenceChangeListener(mSyncListener);
+        }
         super.onDestroy();
     }
 }
