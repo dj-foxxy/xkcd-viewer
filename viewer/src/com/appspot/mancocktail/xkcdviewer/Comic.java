@@ -2,38 +2,32 @@ package com.appspot.mancocktail.xkcdviewer;
 
 import android.graphics.Bitmap;
 
-public class Comic
-{
+public class Comic {
     private final Bitmap mImage;
     private final long mNumber;
     private final String mTitle;
     private final String mMessage;
 
-    public Comic(final Bitmap image, final long number, final String title, final String message)
-    {
+    public Comic(Bitmap image, long number, String title, String message) {
         mImage = image;
         mNumber = number;
         mTitle = title;
         mMessage = message;
     }
 
-    public Bitmap getImage()
-    {
+    public Bitmap getImage() {
         return mImage;
     }
 
-    public long getNumber()
-    {
+    public long getNumber() {
         return mNumber;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return mTitle;
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return mMessage;
     }
 }

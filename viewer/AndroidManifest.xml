@@ -17,7 +17,7 @@
 		android:icon="@drawable/icon"
 		android:label="@string/app_name">
 		<activity
-			android:name="ViewImageActivity"
+			android:name=".ViewComicsActivity"
 			android:theme="@android:style/Theme.NoTitleBar">
 			<intent-filter>
 				<action
@@ -27,9 +27,9 @@
 			</intent-filter>
 		</activity>
 		<service
-			android:name="ComicSyncService" />
+			android:name=".ComicSyncService" />
 		<provider
-			android:authorities="com.appspot.mancocktail.xkcdviewer"
-			android:name="ComicContentProvider" />
+			android:name=".ComicContentProvider"
+			android:authorities="com.appspot.mancocktail.xkcdviewer" />
 	</application>
 </manifest>

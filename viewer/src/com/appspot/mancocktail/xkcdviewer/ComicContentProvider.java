@@ -10,8 +10,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteCursor;
+import android.database.sqlite.SQLiteCursorDriver;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQuery;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
@@ -19,8 +23,7 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class ComicContentProvider extends ContentProvider
-{
+public final class ComicContentProvider extends ContentProvider {
     private static final String TAG = "ComicContentProvider";
 
     public static final String AUTHORITY = "com.appspot.mancocktail.xkcdviewer";
@@ -29,8 +32,7 @@ public class ComicContentProvider extends ContentProvider
             Uri.parse(ContentResolver.SCHEME_CONTENT + "://" + AUTHORITY);
     private static final String CONTENT_TYPE_TEMPLATE = "vnd.android.cursor.%s/vnd.mancocktail.%s";
 
-    public static class ComicTable implements BaseColumns
-    {
+    public static class ComicTable implements BaseColumns {
         private static final String CONTENT_URI_PATH = "comics";
         public static final Uri CONTENT_URI = Uri.withAppendedPath(CONTENT_URI_BASE,
                 CONTENT_URI_PATH);
@@ -41,73 +43,37 @@ public class ComicContentProvider extends ContentProvider
 
         private static final String TABLE_NAME = "comic";
 
-        public static final String NUMBER = _ID;
+        public static final String NUMBER = "number";
         public static final String TITLE = "title";
-        public static final String IMG_NAME = "img_name";
-        public static final String IMG_TYPE = "img_type";
+        public static final String IMAGE_NAME = "image_name";
+        public static final String IMAGE_TYPE = "image_type";
         public static final String MESSAGE = "message";
-        public static final String IS_VALID = "is_valid";
-        public static final String IMG_SYNC_STATE = "img_sync_state";
+        /*
+         * This allows us to use openFileHelper.
+         */
+        public static final String IMAGE_SYNC_STATE = "image_sync_state";
 
-        public static final int IMG_TYPE_JPEG = 0;
-        public static final int IMG_TYPE_PNG = 1;
+        public static final int IMAGE_TYPE_JPEG = 0;
+        public static final int IMAGE_TYPE_PNG = 1;
 
-        public static final int IMG_SYNC_STATE_OK = 0;
-        public static final int IMG_SYNC_STATE_SYNCING = 1;
-        public static final int IMG_SYNC_STATE_ERROR = 2;
+        public static final int IMAGE_SYNC_STATE_NOT_SYNCED = 0;
+        public static final int IMAGE_SYNC_STATE_SYNCED = 1;
 
         private static final String DEFAULT_SORT = NUMBER + " DESC";
 
-        public static String getExt(final int imgType)
-        {
-            switch (imgType)
-            {
-                case IMG_TYPE_JPEG:
-                    return ".jpg";
-                case IMG_TYPE_PNG:
-                    return ".png";
-                default:
-                    throw new IllegalArgumentException("Invalid image type: " + imgType);
+        public static String getExt(final int imageType) {
+            switch (imageType) {
+            case IMAGE_TYPE_JPEG:
+                return ".jpg";
+            case IMAGE_TYPE_PNG:
+                return ".png";
+            default:
+                throw new IllegalArgumentException("Invalid image type: " + imageType);
             }
         }
-    }
 
-    private static class ComicDbOpenHelper extends SQLiteOpenHelper
-    {
-        private static final String DATABASE_NAME = "comics.db";
-        private static final int DATABASE_VERSION = 8;
-
-        public ComicDbOpenHelper(Context context)
-        {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db)
-        {
-            //@formatter:off
-            final String sql =
-            "CREATE TABLE " + ComicTable.TABLE_NAME + '\n' +
-            "(\n\t" +
-                ComicTable.NUMBER         + " INTEGER PRIMARY KEY,\n\t" +
-                ComicTable.TITLE          + " TEXT,\n\t" +
-                ComicTable.IMG_NAME       + " TEXT,\n\t" +
-                ComicTable.IMG_TYPE       + " INTEGER,\n\t" +
-                ComicTable.MESSAGE        + " TEXT,\n\t" +
-                ComicTable.IMG_SYNC_STATE + " INTEGER NOT NULL DEFAULT "
-                            + ComicTable.IMG_SYNC_STATE_SYNCING + '\n' +
-            ");";
-            //@formatter:on
-            Log.v(TAG, sql);
-            db.execSQL(sql);
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-        {
-            Log.w(TAG, "Updating DB from version " + oldVersion + " to verison " + newVersion);
-            db.execSQL("DROP TABLE IF EXISTS " + ComicTable.TABLE_NAME);
-            onCreate(db);
+        public static Uri getUri(final long comicId) {
+            return ContentUris.withAppendedId(CONTENT_URI, comicId);
         }
     }
 
@@ -115,234 +81,278 @@ public class ComicContentProvider extends ContentProvider
     private static final int URI_COMIC = 1;
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-    static
-    {
+    static {
         sUriMatcher.addURI(AUTHORITY, ComicTable.CONTENT_URI_PATH, URI_COMICS);
         sUriMatcher.addURI(AUTHORITY, ComicTable.CONTENT_URI_PATH + "/#", URI_COMIC);
     }
 
+    private final class RefCountingCursor extends SQLiteCursor {
+        public RefCountingCursor(SQLiteDatabase db, SQLiteCursorDriver driver, String editTable,
+                SQLiteQuery query) {
+            super(db, driver, editTable, query);
+            aquireDb();
+        }
+
+        @Override
+        public void close() {
+            super.close();
+            Log.d(TAG, "[C] Releasing from cursor " + hashCode());
+            releaseDb();
+        }
+    }
+
+    private final class RefCountingCursorFactory implements CursorFactory {
+        @Override
+        public Cursor newCursor(SQLiteDatabase db, SQLiteCursorDriver masterQuery,
+                String editTable, SQLiteQuery query) {
+            return new RefCountingCursor(db, masterQuery, editTable, query);
+        }
+    }
+
+    private final class ComicDbOpenHelper extends SQLiteOpenHelper {
+        private static final String DATABASE_NAME = "comics.db";
+        private static final int DATABASE_VERSION = 13;
+
+        public ComicDbOpenHelper(Context context) {
+            super(context, DATABASE_NAME, new RefCountingCursorFactory(), DATABASE_VERSION);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            //@formatter:off
+            final String sql =
+            
+                "CREATE TABLE " + ComicTable.TABLE_NAME + "\n" +
+                "(\n\t" +
+                    ComicTable._ID              + " INTEGER PRIMARY KEY AUTOINCREMENT,\n\t" +
+                    ComicTable.NUMBER           + " INTEGER UNIQUE      NOT NULL,\n\t" +
+                    ComicTable.TITLE            + " TEXT    NOT NULL,\n\t" +
+                    ComicTable.IMAGE_NAME       + " TEXT    NOT NULL,\n\t" +
+                    ComicTable.IMAGE_TYPE       + " INTEGER NOT NULL,\n\t" +
+                    ComicTable.MESSAGE          + " TEXT    NOT NULL,\n\t" +
+                    ComicTable.IMAGE_SYNC_STATE + " INTEGER NOT NULL " +
+                        "DEFAULT " + ComicTable.IMAGE_SYNC_STATE_NOT_SYNCED + "\n" +
+                ");";
+            
+            //@formatter:on
+            Log.v(TAG, sql);
+            db.execSQL(sql);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            Log.w(TAG, "Updating DB from version " + oldVersion + " to verison " + newVersion);
+            db.execSQL("DROP TABLE IF EXISTS " + ComicTable.TABLE_NAME);
+            onCreate(db);
+        }
+    }
+
+    private Context mContext;
+    private ContentResolver mResolver;
     private ComicDbOpenHelper mOpenHelper;
 
     @Override
-    public boolean onCreate()
-    {
-        mOpenHelper = new ComicDbOpenHelper(getContext());
+    public boolean onCreate() {
+        mContext = getContext();
+        mResolver = mContext.getContentResolver();
+        mOpenHelper = new ComicDbOpenHelper(mContext);
         return true;
     }
 
+    private final Object mDbRefUpdateLock = new Object();
+    private int dbRefCount = 0;
+    private SQLiteDatabase mDb = null;
+
+    private void aquireDb() {
+        synchronized (mDbRefUpdateLock) {
+            if (dbRefCount == 0) {
+                /*
+                 * Always use a writable database, even for queries. This stops
+                 * write operations mucking up read operations. It's not an
+                 * ideal solution because a writable database consumes more
+                 * memory, time and power but it's better than the program
+                 * crashing.
+                 */
+                mDb = mOpenHelper.getWritableDatabase();
+            }
+            dbRefCount++;
+            Log.d(TAG, "[A] Database aquired, ref. count " + dbRefCount);
+        }
+    }
+
+    private void releaseDb() {
+        if (dbRefCount <= 0) {
+            throw new IllegalStateException(
+                    "Database released more times that it has been aquired");
+        }
+        synchronized (mDbRefUpdateLock) {
+            if (--dbRefCount == 0) {
+                mDb.close();
+                mDb = null;
+            }
+            Log.d(TAG, "[R] Database released, ref. count " + dbRefCount);
+        }
+    }
+
     @Override
-    public Uri insert(Uri uri, ContentValues values)
-    {
-        if (sUriMatcher.match(uri) != URI_COMICS)
-        {
+    public Uri insert(Uri uri, ContentValues values) {
+        if (sUriMatcher.match(uri) != URI_COMICS) {
             throw new IllegalArgumentException("Invalid insertion URI: " + uri);
         }
-        SQLiteDatabase db = null;
+
         final long comicId;
-        try
-        {
-            db = mOpenHelper.getWritableDatabase();
-            comicId = db.insertOrThrow(ComicTable.TABLE_NAME, ComicTable.TITLE, values);
+        aquireDb();
+        try {
+            // Despite the documentation, this method does throw if a failure
+            // occurs.
+            comicId = mDb.insertOrThrow(ComicTable.TABLE_NAME, ComicTable.TITLE, values);
+        } finally {
+            releaseDb();
         }
-        finally
-        {
-            if (db != null)
-            {
-                db.close();
-            }
-        }
-        final Uri comicUri = ContentUris.withAppendedId(ComicTable.CONTENT_URI, comicId);
-        getContext().getContentResolver().notifyChange(comicUri, null);
-        Log.d(TAG, "Returning " + comicUri);
+
+        final Uri comicUri = ComicTable.getUri(comicId);
+        mResolver.notifyChange(comicUri, null);
+        if (comicUri == null)
+            throw new AssertionError();
         return comicUri;
     }
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
-            String sortOrder)
-    {
+            String sortOrder) {
         final SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        switch (sUriMatcher.match(uri))
-        {
-            case URI_COMIC:
-                qb.appendWhere(ComicTable.NUMBER + '=' + ContentUris.parseId(uri));
-            case URI_COMICS:
-                qb.setTables(ComicTable.TABLE_NAME);
-                if (!TextUtils.isEmpty(sortOrder))
-                {
-                    sortOrder = ComicTable.DEFAULT_SORT;
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("Illegal URI: " + uri);
+        switch (sUriMatcher.match(uri)) {
+        case URI_COMIC:
+            qb.appendWhere(ComicTable._ID + '=' + ContentUris.parseId(uri));
+        case URI_COMICS:
+            qb.setTables(ComicTable.TABLE_NAME);
+            if (!TextUtils.isEmpty(sortOrder)) {
+                sortOrder = ComicTable.DEFAULT_SORT;
+            }
+            break;
+        default:
+            throw new IllegalArgumentException("Illegal URI: " + uri);
         }
 
-        SQLiteDatabase db = null;
-        Cursor cursor = null;
-        try
-        {
-            db = mOpenHelper.getReadableDatabase();
-            cursor = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
-            cursor.setNotificationUri(getContext().getContentResolver(), uri);
-            return cursor;
+        final Cursor cursor;
+        aquireDb();
+        try {
+            cursor = qb.query(mDb, projection, selection, selectionArgs, null, null, sortOrder);
+        } finally {
+            releaseDb();
         }
-        catch (final RuntimeException e)
-        {
-            try
-            {
-                if (cursor != null)
-                {
-                    cursor.close();
-                }
-            }
-            finally
-            {
-                if (db != null)
-                {
-                    db.close();
-                }
-            }
-            throw e;
+        if (cursor != null) {
+            cursor.setNotificationUri(mResolver, uri);
         }
+        return cursor;
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs)
-    {
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         return updateOrDelete(uri, values, selection, selectionArgs, true);
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs)
-    {
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
         return updateOrDelete(uri, null, selection, selectionArgs, false);
     }
 
     private int updateOrDelete(Uri uri, ContentValues values, String selection,
-            String[] selectionArgs, boolean doUpdate)
-    {
+            String[] selectionArgs, boolean doUpdate) {
         final int matchCode = sUriMatcher.match(uri);
+
         if (matchCode != URI_COMIC && matchCode != URI_COMICS)
-        {
             throw new IllegalArgumentException("Illegal URI: " + uri);
-        }
 
         if (matchCode == URI_COMIC)
-        {
-            selection = ComicTable.NUMBER + '=' + ContentUris.parseId(uri)
+            selection = ComicTable._ID + '=' + ContentUris.parseId(uri)
                     + (TextUtils.isEmpty(selection) ? "" : " AND (" + selection + ')');
-        }
 
-        SQLiteDatabase db = null;
         final int count;
-        try
-        {
-            db = mOpenHelper.getWritableDatabase();
+        aquireDb();
+        try {
             if (doUpdate)
-            {
-                count = db.update(ComicTable.TABLE_NAME, values, selection, selectionArgs);
-            }
+                count = mDb.update(ComicTable.TABLE_NAME, values, selection, selectionArgs);
             else
-            {
-                count = db.delete(ComicTable.TABLE_NAME, selection, selectionArgs);
-            }
-        }
-        finally
-        {
-            if (db != null)
-            {
-                db.close();
-            }
+                count = mDb.delete(ComicTable.TABLE_NAME, selection, selectionArgs);
+        } finally {
+            releaseDb();
         }
 
         /*
          * This MUST be called after the database is closed. Otherwise, you get
-         * a bunch of race conditions.
+         * a bunch of race conditions. Must also be called outside the
+         * synchronised close to avoid dead lock.
          */
-        getContext().getContentResolver().notifyChange(uri, null);
+        mResolver.notifyChange(uri, null);
+
         return count;
     }
 
     @Override
     public ParcelFileDescriptor openFile(final Uri comicUri, final String mode)
-            throws FileNotFoundException
-    {
+            throws FileNotFoundException {
         if (sUriMatcher.match(comicUri) != URI_COMIC)
-        {
-            throw new FileNotFoundException("Invalid URI: " + comicUri);
-        }
+            throw new FileNotFoundException("Must be comic URI, got " + comicUri);
+        if (!comicExists(comicUri))
+            throw new FileNotFoundException("No comic exists at " + comicUri);
 
-        int fdMode;
-        if (mode.equals("r"))
-        {
-            fdMode = ParcelFileDescriptor.MODE_READ_ONLY;
-        }
-        else if (mode.equals("w"))
-        {
-            fdMode = ParcelFileDescriptor.MODE_WRITE_ONLY
-                    | ParcelFileDescriptor.MODE_CREATE;
-        }
-        else if (mode.equals("rw"))
-        {
-            fdMode = ParcelFileDescriptor.MODE_READ_WRITE
-                    | ParcelFileDescriptor.MODE_CREATE;
-        }
-        else if (mode.equals("rwt"))
-        {
-            fdMode = ParcelFileDescriptor.MODE_READ_WRITE
-                    | ParcelFileDescriptor.MODE_TRUNCATE
-                    | ParcelFileDescriptor.MODE_CREATE;
-        }
-        else
-        {
-            throw new FileNotFoundException("Unsupported mode: " + mode);
-        }
-
-        // Check that the comic exists.
-        Cursor cursor = null;
-        try
-        {
-            cursor = getContext().getContentResolver().query(comicUri, new String[] { "count(1)" },
-                    null, null, null);
-            if (cursor == null || cursor.getCount() != 1)
-            {
-                throw new FileNotFoundException("No comic exists at " + comicUri);
-            }
-        }
-        finally
-        {
-            if (cursor != null)
-            {
-                cursor.close();
-            }
-        }
-
-        final String dir = getExternalFilesDir();
-        return ParcelFileDescriptor.open(
-                new File(dir + File.separatorChar + ContentUris.parseId(comicUri)), fdMode);
+        /*
+         * openFileHelper is not must use because we build the image path on the
+         * fly.
+         */
+        return ParcelFileDescriptor.open(new File(getImagePath(comicUri)), modeToModeBits(mode));
     }
 
-    private String getExternalFilesDir() throws FileNotFoundException
-    {
-        final File externalFilesDir = getContext().getExternalFilesDir(null);
-        if (externalFilesDir != null)
-        {
-            return externalFilesDir.getPath();
+    private boolean comicExists(final Uri comic) throws FileNotFoundException {
+        Cursor cursor = null;
+        try {
+            cursor = query(comic, new String[] { "count(1)" }, null, null, null);
+            if (cursor == null)
+                throw new FileNotFoundException("Could not determine if comic exits.");
+            return cursor.getCount() == 1;
+        } finally {
+            if (cursor != null)
+                cursor.close();
         }
-        throw new FileNotFoundException("External files directory is currently not avaliable.");
+    }
+
+    private String getImagePath(final Uri comic) throws FileNotFoundException {
+        final File externalFilesDir = mContext.getExternalFilesDir(null);
+        if (externalFilesDir == null)
+            throw new FileNotFoundException("External files directory is currently not avaliable.");
+        return externalFilesDir.getPath() + File.separatorChar + ContentUris.parseId(comic);
     }
 
     @Override
-    public String getType(Uri uri)
-    {
-        switch (sUriMatcher.match(uri))
-        {
-            case URI_COMICS:
-                return ComicTable.CONTENT_TYPE;
-            case URI_COMIC:
-                return ComicTable.CONTENT_ITEM_TYPE;
-            default:
-                throw new IllegalArgumentException("Illegal URI: " + uri);
+    public String getType(Uri uri) {
+        switch (sUriMatcher.match(uri)) {
+        case URI_COMICS:
+            return ComicTable.CONTENT_TYPE;
+        case URI_COMIC:
+            return ComicTable.CONTENT_ITEM_TYPE;
+        default:
+            throw new IllegalArgumentException("Illegal URI: " + uri);
+        }
+    }
+
+    // Copied from hidden method within ContentResolver.
+    private static int modeToModeBits(final String mode) throws FileNotFoundException {
+        if ("r".equals(mode)) {
+            return ParcelFileDescriptor.MODE_READ_ONLY;
+        } else if ("w".equals(mode) || "wt".equals(mode)) {
+            return ParcelFileDescriptor.MODE_WRITE_ONLY | ParcelFileDescriptor.MODE_CREATE
+                        | ParcelFileDescriptor.MODE_TRUNCATE;
+        } else if ("wa".equals(mode)) {
+            return ParcelFileDescriptor.MODE_WRITE_ONLY | ParcelFileDescriptor.MODE_CREATE
+                        | ParcelFileDescriptor.MODE_APPEND;
+        } else if ("rw".equals(mode)) {
+            return ParcelFileDescriptor.MODE_READ_WRITE | ParcelFileDescriptor.MODE_CREATE;
+        } else if ("rwt".equals(mode)) {
+            return ParcelFileDescriptor.MODE_READ_WRITE | ParcelFileDescriptor.MODE_CREATE
+                        | ParcelFileDescriptor.MODE_TRUNCATE;
+        } else {
+            throw new FileNotFoundException("Bad mode for : " + mode);
         }
     }
 }

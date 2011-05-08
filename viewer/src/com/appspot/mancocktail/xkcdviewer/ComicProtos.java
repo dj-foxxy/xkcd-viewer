@@ -3,20 +3,16 @@
 
 package com.appspot.mancocktail.xkcdviewer;
 
-public final class ComicProtos
-{
-    private ComicProtos()
-    {
+public final class ComicProtos {
+    private ComicProtos() {
     }
 
     public static void registerAllExtensions(
-            com.google.protobuf.ExtensionRegistry registry)
-    {
+            com.google.protobuf.ExtensionRegistry registry) {
     }
 
     public interface ComicListOrBuilder
-            extends com.google.protobuf.MessageOrBuilder
-    {
+            extends com.google.protobuf.MessageOrBuilder {
 
         // repeated .xkcdviewer.ComicList.Comic comics = 1;
         java.util.List<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic>
@@ -35,47 +31,39 @@ public final class ComicProtos
 
     public static final class ComicList extends
             com.google.protobuf.GeneratedMessage
-            implements ComicListOrBuilder
-    {
+            implements ComicListOrBuilder {
         // Use ComicList.newBuilder() to construct.
-        private ComicList(Builder builder)
-        {
+        private ComicList(Builder builder) {
             super(builder);
         }
 
-        private ComicList(boolean noInit)
-        {
+        private ComicList(boolean noInit) {
         }
 
         private static final ComicList defaultInstance;
 
-        public static ComicList getDefaultInstance()
-        {
+        public static ComicList getDefaultInstance() {
             return defaultInstance;
         }
 
         @Override
-        public ComicList getDefaultInstanceForType()
-        {
+        public ComicList getDefaultInstanceForType() {
             return defaultInstance;
         }
 
         public static final com.google.protobuf.Descriptors.Descriptor
-                getDescriptor()
-        {
+                getDescriptor() {
             return com.appspot.mancocktail.xkcdviewer.ComicProtos.internal_static_xkcdviewer_ComicList_descriptor;
         }
 
         @Override
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-                internalGetFieldAccessorTable()
-        {
+                internalGetFieldAccessorTable() {
             return com.appspot.mancocktail.xkcdviewer.ComicProtos.internal_static_xkcdviewer_ComicList_fieldAccessorTable;
         }
 
         public interface ComicOrBuilder
-                extends com.google.protobuf.MessageOrBuilder
-        {
+                extends com.google.protobuf.MessageOrBuilder {
 
             // required uint32 number = 1;
             boolean hasNumber();
@@ -106,47 +94,39 @@ public final class ComicProtos
 
         public static final class Comic extends
                 com.google.protobuf.GeneratedMessage
-                implements ComicOrBuilder
-        {
+                implements ComicOrBuilder {
             // Use Comic.newBuilder() to construct.
-            private Comic(Builder builder)
-            {
+            private Comic(Builder builder) {
                 super(builder);
             }
 
-            private Comic(boolean noInit)
-            {
+            private Comic(boolean noInit) {
             }
 
             private static final Comic defaultInstance;
 
-            public static Comic getDefaultInstance()
-            {
+            public static Comic getDefaultInstance() {
                 return defaultInstance;
             }
 
             @Override
-            public Comic getDefaultInstanceForType()
-            {
+            public Comic getDefaultInstanceForType() {
                 return defaultInstance;
             }
 
             public static final com.google.protobuf.Descriptors.Descriptor
-                    getDescriptor()
-            {
+                    getDescriptor() {
                 return com.appspot.mancocktail.xkcdviewer.ComicProtos.internal_static_xkcdviewer_ComicList_Comic_descriptor;
             }
 
             @Override
             protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-                    internalGetFieldAccessorTable()
-            {
+                    internalGetFieldAccessorTable() {
                 return com.appspot.mancocktail.xkcdviewer.ComicProtos.internal_static_xkcdviewer_ComicList_Comic_fieldAccessorTable;
             }
 
             public enum ImgType
-                    implements com.google.protobuf.ProtocolMessageEnum
-            {
+                    implements com.google.protobuf.ProtocolMessageEnum {
                 JPG(0, 0),
                 PNG(1, 1), ;
 
@@ -154,27 +134,23 @@ public final class ComicProtos
                 public static final int PNG_VALUE = 1;
 
                 @Override
-                public final int getNumber()
-                {
+                public final int getNumber() {
                     return value;
                 }
 
-                public static ImgType valueOf(int value)
-                {
-                    switch (value)
-                    {
-                        case 0:
-                            return JPG;
-                        case 1:
-                            return PNG;
-                        default:
-                            return null;
+                public static ImgType valueOf(int value) {
+                    switch (value) {
+                    case 0:
+                        return JPG;
+                    case 1:
+                        return PNG;
+                    default:
+                        return null;
                     }
                 }
 
                 public static com.google.protobuf.Internal.EnumLiteMap<ImgType>
-                        internalGetValueMap()
-                {
+                        internalGetValueMap() {
                     return internalValueMap;
                 }
 
@@ -190,21 +166,18 @@ public final class ComicProtos
 
                 @Override
                 public final com.google.protobuf.Descriptors.EnumValueDescriptor
-                        getValueDescriptor()
-                {
+                        getValueDescriptor() {
                     return getDescriptor().getValues().get(index);
                 }
 
                 @Override
                 public final com.google.protobuf.Descriptors.EnumDescriptor
-                        getDescriptorForType()
-                {
+                        getDescriptorForType() {
                     return getDescriptor();
                 }
 
                 public static final com.google.protobuf.Descriptors.EnumDescriptor
-                        getDescriptor()
-                {
+                        getDescriptor() {
                     return com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic
                             .getDescriptor().getEnumTypes().get(0);
                 }
@@ -214,10 +187,8 @@ public final class ComicProtos
                 };
 
                 public static ImgType valueOf(
-                        com.google.protobuf.Descriptors.EnumValueDescriptor desc)
-                {
-                    if (desc.getType() != getDescriptor())
-                    {
+                        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+                    if (desc.getType() != getDescriptor()) {
                         throw new java.lang.IllegalArgumentException(
                                 "EnumValueDescriptor is not for this type.");
                     }
@@ -227,8 +198,7 @@ public final class ComicProtos
                 private final int index;
                 private final int value;
 
-                private ImgType(int index, int value)
-                {
+                private ImgType(int index, int value) {
                     this.index = index;
                     this.value = value;
                 }
@@ -242,14 +212,12 @@ public final class ComicProtos
             private int number_;
 
             @Override
-            public boolean hasNumber()
-            {
+            public boolean hasNumber() {
                 return ((bitField0_ & 0x00000001) == 0x00000001);
             }
 
             @Override
-            public int getNumber()
-            {
+            public int getNumber() {
                 return number_;
             }
 
@@ -258,44 +226,34 @@ public final class ComicProtos
             private Object title_;
 
             @Override
-            public boolean hasTitle()
-            {
+            public boolean hasTitle() {
                 return ((bitField0_ & 0x00000002) == 0x00000002);
             }
 
             @Override
-            public String getTitle()
-            {
+            public String getTitle() {
                 Object ref = title_;
-                if (ref instanceof String)
-                {
+                if (ref instanceof String) {
                     return (String) ref;
-                }
-                else
-                {
+                } else {
                     com.google.protobuf.ByteString bs =
                             (com.google.protobuf.ByteString) ref;
                     String s = bs.toStringUtf8();
-                    if (com.google.protobuf.Internal.isValidUtf8(bs))
-                    {
+                    if (com.google.protobuf.Internal.isValidUtf8(bs)) {
                         title_ = s;
                     }
                     return s;
                 }
             }
 
-            private com.google.protobuf.ByteString getTitleBytes()
-            {
+            private com.google.protobuf.ByteString getTitleBytes() {
                 Object ref = title_;
-                if (ref instanceof String)
-                {
+                if (ref instanceof String) {
                     com.google.protobuf.ByteString b =
                             com.google.protobuf.ByteString.copyFromUtf8((String) ref);
                     title_ = b;
                     return b;
-                }
-                else
-                {
+                } else {
                     return (com.google.protobuf.ByteString) ref;
                 }
             }
@@ -305,44 +263,34 @@ public final class ComicProtos
             private Object imgName_;
 
             @Override
-            public boolean hasImgName()
-            {
+            public boolean hasImgName() {
                 return ((bitField0_ & 0x00000004) == 0x00000004);
             }
 
             @Override
-            public String getImgName()
-            {
+            public String getImgName() {
                 Object ref = imgName_;
-                if (ref instanceof String)
-                {
+                if (ref instanceof String) {
                     return (String) ref;
-                }
-                else
-                {
+                } else {
                     com.google.protobuf.ByteString bs =
                             (com.google.protobuf.ByteString) ref;
                     String s = bs.toStringUtf8();
-                    if (com.google.protobuf.Internal.isValidUtf8(bs))
-                    {
+                    if (com.google.protobuf.Internal.isValidUtf8(bs)) {
                         imgName_ = s;
                     }
                     return s;
                 }
             }
 
-            private com.google.protobuf.ByteString getImgNameBytes()
-            {
+            private com.google.protobuf.ByteString getImgNameBytes() {
                 Object ref = imgName_;
-                if (ref instanceof String)
-                {
+                if (ref instanceof String) {
                     com.google.protobuf.ByteString b =
                             com.google.protobuf.ByteString.copyFromUtf8((String) ref);
                     imgName_ = b;
                     return b;
-                }
-                else
-                {
+                } else {
                     return (com.google.protobuf.ByteString) ref;
                 }
             }
@@ -353,14 +301,12 @@ public final class ComicProtos
             private com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType imgType_;
 
             @Override
-            public boolean hasImgType()
-            {
+            public boolean hasImgType() {
                 return ((bitField0_ & 0x00000008) == 0x00000008);
             }
 
             @Override
-            public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType getImgType()
-            {
+            public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType getImgType() {
                 return imgType_;
             }
 
@@ -369,50 +315,39 @@ public final class ComicProtos
             private Object message_;
 
             @Override
-            public boolean hasMessage()
-            {
+            public boolean hasMessage() {
                 return ((bitField0_ & 0x00000010) == 0x00000010);
             }
 
             @Override
-            public String getMessage()
-            {
+            public String getMessage() {
                 Object ref = message_;
-                if (ref instanceof String)
-                {
+                if (ref instanceof String) {
                     return (String) ref;
-                }
-                else
-                {
+                } else {
                     com.google.protobuf.ByteString bs =
                             (com.google.protobuf.ByteString) ref;
                     String s = bs.toStringUtf8();
-                    if (com.google.protobuf.Internal.isValidUtf8(bs))
-                    {
+                    if (com.google.protobuf.Internal.isValidUtf8(bs)) {
                         message_ = s;
                     }
                     return s;
                 }
             }
 
-            private com.google.protobuf.ByteString getMessageBytes()
-            {
+            private com.google.protobuf.ByteString getMessageBytes() {
                 Object ref = message_;
-                if (ref instanceof String)
-                {
+                if (ref instanceof String) {
                     com.google.protobuf.ByteString b =
                             com.google.protobuf.ByteString.copyFromUtf8((String) ref);
                     message_ = b;
                     return b;
-                }
-                else
-                {
+                } else {
                     return (com.google.protobuf.ByteString) ref;
                 }
             }
 
-            private void initFields()
-            {
+            private void initFields() {
                 number_ = 0;
                 title_ = "";
                 imgName_ = "";
@@ -423,29 +358,24 @@ public final class ComicProtos
             private byte memoizedIsInitialized = -1;
 
             @Override
-            public final boolean isInitialized()
-            {
+            public final boolean isInitialized() {
                 byte isInitialized = memoizedIsInitialized;
                 if (isInitialized != -1)
                     return isInitialized == 1;
 
-                if (!hasNumber())
-                {
+                if (!hasNumber()) {
                     memoizedIsInitialized = 0;
                     return false;
                 }
-                if (!hasTitle())
-                {
+                if (!hasTitle()) {
                     memoizedIsInitialized = 0;
                     return false;
                 }
-                if (!hasImgName())
-                {
+                if (!hasImgName()) {
                     memoizedIsInitialized = 0;
                     return false;
                 }
-                if (!hasMessage())
-                {
+                if (!hasMessage()) {
                     memoizedIsInitialized = 0;
                     return false;
                 }
@@ -455,27 +385,21 @@ public final class ComicProtos
 
             @Override
             public void writeTo(com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException
-            {
+                          throws java.io.IOException {
                 getSerializedSize();
-                if (((bitField0_ & 0x00000001) == 0x00000001))
-                {
+                if (((bitField0_ & 0x00000001) == 0x00000001)) {
                     output.writeUInt32(1, number_);
                 }
-                if (((bitField0_ & 0x00000002) == 0x00000002))
-                {
+                if (((bitField0_ & 0x00000002) == 0x00000002)) {
                     output.writeBytes(2, getTitleBytes());
                 }
-                if (((bitField0_ & 0x00000004) == 0x00000004))
-                {
+                if (((bitField0_ & 0x00000004) == 0x00000004)) {
                     output.writeBytes(3, getImgNameBytes());
                 }
-                if (((bitField0_ & 0x00000008) == 0x00000008))
-                {
+                if (((bitField0_ & 0x00000008) == 0x00000008)) {
                     output.writeEnum(4, imgType_.getNumber());
                 }
-                if (((bitField0_ & 0x00000010) == 0x00000010))
-                {
+                if (((bitField0_ & 0x00000010) == 0x00000010)) {
                     output.writeBytes(5, getMessageBytes());
                 }
                 getUnknownFields().writeTo(output);
@@ -484,35 +408,29 @@ public final class ComicProtos
             private int memoizedSerializedSize = -1;
 
             @Override
-            public int getSerializedSize()
-            {
+            public int getSerializedSize() {
                 int size = memoizedSerializedSize;
                 if (size != -1)
                     return size;
 
                 size = 0;
-                if (((bitField0_ & 0x00000001) == 0x00000001))
-                {
+                if (((bitField0_ & 0x00000001) == 0x00000001)) {
                     size += com.google.protobuf.CodedOutputStream
                             .computeUInt32Size(1, number_);
                 }
-                if (((bitField0_ & 0x00000002) == 0x00000002))
-                {
+                if (((bitField0_ & 0x00000002) == 0x00000002)) {
                     size += com.google.protobuf.CodedOutputStream
                             .computeBytesSize(2, getTitleBytes());
                 }
-                if (((bitField0_ & 0x00000004) == 0x00000004))
-                {
+                if (((bitField0_ & 0x00000004) == 0x00000004)) {
                     size += com.google.protobuf.CodedOutputStream
                             .computeBytesSize(3, getImgNameBytes());
                 }
-                if (((bitField0_ & 0x00000008) == 0x00000008))
-                {
+                if (((bitField0_ & 0x00000008) == 0x00000008)) {
                     size += com.google.protobuf.CodedOutputStream
                             .computeEnumSize(4, imgType_.getNumber());
                 }
-                if (((bitField0_ & 0x00000010) == 0x00000010))
-                {
+                if (((bitField0_ & 0x00000010) == 0x00000010)) {
                     size += com.google.protobuf.CodedOutputStream
                             .computeBytesSize(5, getMessageBytes());
                 }
@@ -522,70 +440,59 @@ public final class ComicProtos
             }
 
             @java.lang.Override
-            protected Object writeReplace() throws java.io.ObjectStreamException
-            {
+            protected Object writeReplace() throws java.io.ObjectStreamException {
                 return super.writeReplace();
             }
 
             public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic parseFrom(
                     com.google.protobuf.ByteString data)
-                    throws com.google.protobuf.InvalidProtocolBufferException
-            {
+                    throws com.google.protobuf.InvalidProtocolBufferException {
                 return newBuilder().mergeFrom(data).buildParsed();
             }
 
             public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic parseFrom(
                     com.google.protobuf.ByteString data,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws com.google.protobuf.InvalidProtocolBufferException
-            {
+                    throws com.google.protobuf.InvalidProtocolBufferException {
                 return newBuilder().mergeFrom(data, extensionRegistry)
                         .buildParsed();
             }
 
             public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic parseFrom(
                     byte[] data)
-                    throws com.google.protobuf.InvalidProtocolBufferException
-            {
+                    throws com.google.protobuf.InvalidProtocolBufferException {
                 return newBuilder().mergeFrom(data).buildParsed();
             }
 
             public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic parseFrom(
                     byte[] data,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws com.google.protobuf.InvalidProtocolBufferException
-            {
+                    throws com.google.protobuf.InvalidProtocolBufferException {
                 return newBuilder().mergeFrom(data, extensionRegistry)
                         .buildParsed();
             }
 
             public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic parseFrom(
                     java.io.InputStream input)
-                    throws java.io.IOException
-            {
+                    throws java.io.IOException {
                 return newBuilder().mergeFrom(input).buildParsed();
             }
 
             public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic parseFrom(
                     java.io.InputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws java.io.IOException
-            {
+                    throws java.io.IOException {
                 return newBuilder().mergeFrom(input, extensionRegistry)
                         .buildParsed();
             }
 
             public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic parseDelimitedFrom(
                     java.io.InputStream input)
-                    throws java.io.IOException
-            {
+                    throws java.io.IOException {
                 Builder builder = newBuilder();
-                if (builder.mergeDelimitedFrom(input))
-                {
+                if (builder.mergeDelimitedFrom(input)) {
                     return builder.buildParsed();
-                }
-                else
-                {
+                } else {
                     return null;
                 }
             }
@@ -593,62 +500,51 @@ public final class ComicProtos
             public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic parseDelimitedFrom(
                     java.io.InputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws java.io.IOException
-            {
+                    throws java.io.IOException {
                 Builder builder = newBuilder();
-                if (builder.mergeDelimitedFrom(input, extensionRegistry))
-                {
+                if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
                     return builder.buildParsed();
-                }
-                else
-                {
+                } else {
                     return null;
                 }
             }
 
             public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic parseFrom(
                     com.google.protobuf.CodedInputStream input)
-                    throws java.io.IOException
-            {
+                    throws java.io.IOException {
                 return newBuilder().mergeFrom(input).buildParsed();
             }
 
             public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic parseFrom(
                     com.google.protobuf.CodedInputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws java.io.IOException
-            {
+                    throws java.io.IOException {
                 return newBuilder().mergeFrom(input, extensionRegistry)
                         .buildParsed();
             }
 
-            public static Builder newBuilder()
-            {
+            public static Builder newBuilder() {
                 return Builder.create();
             }
 
             @Override
-            public Builder newBuilderForType()
-            {
+            public Builder newBuilderForType() {
                 return newBuilder();
             }
 
             public static Builder newBuilder(
-                    com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic prototype)
-            {
+                    com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic prototype) {
                 return newBuilder().mergeFrom(prototype);
             }
 
             @Override
-            public Builder toBuilder()
-            {
+            public Builder toBuilder() {
                 return newBuilder(this);
             }
 
             @java.lang.Override
             protected Builder newBuilderForType(
-                    com.google.protobuf.GeneratedMessage.BuilderParent parent)
-            {
+                    com.google.protobuf.GeneratedMessage.BuilderParent parent) {
                 Builder builder = new Builder(parent);
                 return builder;
             }
@@ -656,49 +552,40 @@ public final class ComicProtos
             public static final class Builder extends
                     com.google.protobuf.GeneratedMessage.Builder<Builder>
                     implements
-                    com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder
-            {
+                    com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder {
                 public static final com.google.protobuf.Descriptors.Descriptor
-                        getDescriptor()
-                {
+                        getDescriptor() {
                     return com.appspot.mancocktail.xkcdviewer.ComicProtos.internal_static_xkcdviewer_ComicList_Comic_descriptor;
                 }
 
                 @Override
                 protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-                        internalGetFieldAccessorTable()
-                {
+                        internalGetFieldAccessorTable() {
                     return com.appspot.mancocktail.xkcdviewer.ComicProtos.internal_static_xkcdviewer_ComicList_Comic_fieldAccessorTable;
                 }
 
                 // Construct using
                 // com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.newBuilder()
-                private Builder()
-                {
+                private Builder() {
                     maybeForceBuilderInitialization();
                 }
 
-                private Builder(BuilderParent parent)
-                {
+                private Builder(BuilderParent parent) {
                     super(parent);
                     maybeForceBuilderInitialization();
                 }
 
-                private void maybeForceBuilderInitialization()
-                {
-                    if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders)
-                    {
+                private void maybeForceBuilderInitialization() {
+                    if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
                     }
                 }
 
-                private static Builder create()
-                {
+                private static Builder create() {
                     return new Builder();
                 }
 
                 @Override
-                public Builder clear()
-                {
+                public Builder clear() {
                     super.clear();
                     number_ = 0;
                     bitField0_ = (bitField0_ & ~0x00000001);
@@ -714,43 +601,36 @@ public final class ComicProtos
                 }
 
                 @Override
-                public Builder clone()
-                {
+                public Builder clone() {
                     return create().mergeFrom(buildPartial());
                 }
 
                 @Override
                 public com.google.protobuf.Descriptors.Descriptor
-                        getDescriptorForType()
-                {
+                        getDescriptorForType() {
                     return com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic
                             .getDescriptor();
                 }
 
                 @Override
-                public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic getDefaultInstanceForType()
-                {
+                public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic getDefaultInstanceForType() {
                     return com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic
                             .getDefaultInstance();
                 }
 
                 @Override
-                public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic build()
-                {
+                public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic build() {
                     com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic result = buildPartial();
-                    if (!result.isInitialized())
-                    {
+                    if (!result.isInitialized()) {
                         throw newUninitializedMessageException(result);
                     }
                     return result;
                 }
 
                 private com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic buildParsed()
-                        throws com.google.protobuf.InvalidProtocolBufferException
-                {
+                        throws com.google.protobuf.InvalidProtocolBufferException {
                     com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic result = buildPartial();
-                    if (!result.isInitialized())
-                    {
+                    if (!result.isInitialized()) {
                         throw newUninitializedMessageException(
                                 result).asInvalidProtocolBufferException();
                     }
@@ -758,34 +638,28 @@ public final class ComicProtos
                 }
 
                 @Override
-                public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic buildPartial()
-                {
+                public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic buildPartial() {
                     com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic result = new com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic(
                             this);
                     int from_bitField0_ = bitField0_;
                     int to_bitField0_ = 0;
-                    if (((from_bitField0_ & 0x00000001) == 0x00000001))
-                    {
+                    if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
                         to_bitField0_ |= 0x00000001;
                     }
                     result.number_ = number_;
-                    if (((from_bitField0_ & 0x00000002) == 0x00000002))
-                    {
+                    if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
                         to_bitField0_ |= 0x00000002;
                     }
                     result.title_ = title_;
-                    if (((from_bitField0_ & 0x00000004) == 0x00000004))
-                    {
+                    if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
                         to_bitField0_ |= 0x00000004;
                     }
                     result.imgName_ = imgName_;
-                    if (((from_bitField0_ & 0x00000008) == 0x00000008))
-                    {
+                    if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
                         to_bitField0_ |= 0x00000008;
                     }
                     result.imgType_ = imgType_;
-                    if (((from_bitField0_ & 0x00000010) == 0x00000010))
-                    {
+                    if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
                         to_bitField0_ |= 0x00000010;
                     }
                     result.message_ = message_;
@@ -795,43 +669,33 @@ public final class ComicProtos
                 }
 
                 @Override
-                public Builder mergeFrom(com.google.protobuf.Message other)
-                {
-                    if (other instanceof com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic)
-                    {
+                public Builder mergeFrom(com.google.protobuf.Message other) {
+                    if (other instanceof com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic) {
                         return mergeFrom((com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic) other);
-                    }
-                    else
-                    {
+                    } else {
                         super.mergeFrom(other);
                         return this;
                     }
                 }
 
                 public Builder mergeFrom(
-                        com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic other)
-                {
+                        com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic other) {
                     if (other == com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic
                             .getDefaultInstance())
                         return this;
-                    if (other.hasNumber())
-                    {
+                    if (other.hasNumber()) {
                         setNumber(other.getNumber());
                     }
-                    if (other.hasTitle())
-                    {
+                    if (other.hasTitle()) {
                         setTitle(other.getTitle());
                     }
-                    if (other.hasImgName())
-                    {
+                    if (other.hasImgName()) {
                         setImgName(other.getImgName());
                     }
-                    if (other.hasImgType())
-                    {
+                    if (other.hasImgType()) {
                         setImgType(other.getImgType());
                     }
-                    if (other.hasMessage())
-                    {
+                    if (other.hasMessage()) {
                         setMessage(other.getMessage());
                     }
                     this.mergeUnknownFields(other.getUnknownFields());
@@ -839,25 +703,20 @@ public final class ComicProtos
                 }
 
                 @Override
-                public final boolean isInitialized()
-                {
-                    if (!hasNumber())
-                    {
+                public final boolean isInitialized() {
+                    if (!hasNumber()) {
 
                         return false;
                     }
-                    if (!hasTitle())
-                    {
+                    if (!hasTitle()) {
 
                         return false;
                     }
-                    if (!hasImgName())
-                    {
+                    if (!hasImgName()) {
 
                         return false;
                     }
-                    if (!hasMessage())
-                    {
+                    if (!hasMessage()) {
 
                         return false;
                     }
@@ -868,71 +727,58 @@ public final class ComicProtos
                 public Builder mergeFrom(
                         com.google.protobuf.CodedInputStream input,
                         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                        throws java.io.IOException
-                {
+                        throws java.io.IOException {
                     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
                             com.google.protobuf.UnknownFieldSet.newBuilder(
                                     this.getUnknownFields());
-                    while (true)
-                    {
+                    while (true) {
                         int tag = input.readTag();
-                        switch (tag)
-                        {
-                            case 0:
+                        switch (tag) {
+                        case 0:
+                            this.setUnknownFields(unknownFields.build());
+                            onChanged();
+                            return this;
+                        default: {
+                            if (!parseUnknownField(input, unknownFields,
+                                        extensionRegistry, tag)) {
                                 this.setUnknownFields(unknownFields.build());
                                 onChanged();
                                 return this;
-                            default:
-                            {
-                                if (!parseUnknownField(input, unknownFields,
-                                        extensionRegistry, tag))
-                                {
-                                    this.setUnknownFields(unknownFields.build());
-                                    onChanged();
-                                    return this;
-                                }
-                                break;
                             }
-                            case 8:
-                            {
-                                bitField0_ |= 0x00000001;
-                                number_ = input.readUInt32();
-                                break;
-                            }
-                            case 18:
-                            {
-                                bitField0_ |= 0x00000002;
-                                title_ = input.readBytes();
-                                break;
-                            }
-                            case 26:
-                            {
-                                bitField0_ |= 0x00000004;
-                                imgName_ = input.readBytes();
-                                break;
-                            }
-                            case 32:
-                            {
-                                int rawValue = input.readEnum();
-                                com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType value = com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType
+                            break;
+                        }
+                        case 8: {
+                            bitField0_ |= 0x00000001;
+                            number_ = input.readUInt32();
+                            break;
+                        }
+                        case 18: {
+                            bitField0_ |= 0x00000002;
+                            title_ = input.readBytes();
+                            break;
+                        }
+                        case 26: {
+                            bitField0_ |= 0x00000004;
+                            imgName_ = input.readBytes();
+                            break;
+                        }
+                        case 32: {
+                            int rawValue = input.readEnum();
+                            com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType value = com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType
                                         .valueOf(rawValue);
-                                if (value == null)
-                                {
-                                    unknownFields.mergeVarintField(4, rawValue);
-                                }
-                                else
-                                {
-                                    bitField0_ |= 0x00000008;
-                                    imgType_ = value;
-                                }
-                                break;
+                            if (value == null) {
+                                unknownFields.mergeVarintField(4, rawValue);
+                            } else {
+                                bitField0_ |= 0x00000008;
+                                imgType_ = value;
                             }
-                            case 42:
-                            {
-                                bitField0_ |= 0x00000010;
-                                message_ = input.readBytes();
-                                break;
-                            }
+                            break;
+                        }
+                        case 42: {
+                            bitField0_ |= 0x00000010;
+                            message_ = input.readBytes();
+                            break;
+                        }
                         }
                     }
                 }
@@ -943,27 +789,23 @@ public final class ComicProtos
                 private int number_;
 
                 @Override
-                public boolean hasNumber()
-                {
+                public boolean hasNumber() {
                     return ((bitField0_ & 0x00000001) == 0x00000001);
                 }
 
                 @Override
-                public int getNumber()
-                {
+                public int getNumber() {
                     return number_;
                 }
 
-                public Builder setNumber(int value)
-                {
+                public Builder setNumber(int value) {
                     bitField0_ |= 0x00000001;
                     number_ = value;
                     onChanged();
                     return this;
                 }
 
-                public Builder clearNumber()
-                {
+                public Builder clearNumber() {
                     bitField0_ = (bitField0_ & ~0x00000001);
                     number_ = 0;
                     onChanged();
@@ -974,31 +816,24 @@ public final class ComicProtos
                 private Object title_ = "";
 
                 @Override
-                public boolean hasTitle()
-                {
+                public boolean hasTitle() {
                     return ((bitField0_ & 0x00000002) == 0x00000002);
                 }
 
                 @Override
-                public String getTitle()
-                {
+                public String getTitle() {
                     Object ref = title_;
-                    if (!(ref instanceof String))
-                    {
+                    if (!(ref instanceof String)) {
                         String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
                         title_ = s;
                         return s;
-                    }
-                    else
-                    {
+                    } else {
                         return (String) ref;
                     }
                 }
 
-                public Builder setTitle(String value)
-                {
-                    if (value == null)
-                    {
+                public Builder setTitle(String value) {
+                    if (value == null) {
                         throw new NullPointerException();
                     }
                     bitField0_ |= 0x00000002;
@@ -1007,16 +842,14 @@ public final class ComicProtos
                     return this;
                 }
 
-                public Builder clearTitle()
-                {
+                public Builder clearTitle() {
                     bitField0_ = (bitField0_ & ~0x00000002);
                     title_ = getDefaultInstance().getTitle();
                     onChanged();
                     return this;
                 }
 
-                void setTitle(com.google.protobuf.ByteString value)
-                {
+                void setTitle(com.google.protobuf.ByteString value) {
                     bitField0_ |= 0x00000002;
                     title_ = value;
                     onChanged();
@@ -1026,31 +859,24 @@ public final class ComicProtos
                 private Object imgName_ = "";
 
                 @Override
-                public boolean hasImgName()
-                {
+                public boolean hasImgName() {
                     return ((bitField0_ & 0x00000004) == 0x00000004);
                 }
 
                 @Override
-                public String getImgName()
-                {
+                public String getImgName() {
                     Object ref = imgName_;
-                    if (!(ref instanceof String))
-                    {
+                    if (!(ref instanceof String)) {
                         String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
                         imgName_ = s;
                         return s;
-                    }
-                    else
-                    {
+                    } else {
                         return (String) ref;
                     }
                 }
 
-                public Builder setImgName(String value)
-                {
-                    if (value == null)
-                    {
+                public Builder setImgName(String value) {
+                    if (value == null) {
                         throw new NullPointerException();
                     }
                     bitField0_ |= 0x00000004;
@@ -1059,16 +885,14 @@ public final class ComicProtos
                     return this;
                 }
 
-                public Builder clearImgName()
-                {
+                public Builder clearImgName() {
                     bitField0_ = (bitField0_ & ~0x00000004);
                     imgName_ = getDefaultInstance().getImgName();
                     onChanged();
                     return this;
                 }
 
-                void setImgName(com.google.protobuf.ByteString value)
-                {
+                void setImgName(com.google.protobuf.ByteString value) {
                     bitField0_ |= 0x00000004;
                     imgName_ = value;
                     onChanged();
@@ -1079,22 +903,18 @@ public final class ComicProtos
                 private com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType imgType_ = com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType.PNG;
 
                 @Override
-                public boolean hasImgType()
-                {
+                public boolean hasImgType() {
                     return ((bitField0_ & 0x00000008) == 0x00000008);
                 }
 
                 @Override
-                public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType getImgType()
-                {
+                public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType getImgType() {
                     return imgType_;
                 }
 
                 public Builder setImgType(
-                        com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType value)
-                {
-                    if (value == null)
-                    {
+                        com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType value) {
+                    if (value == null) {
                         throw new NullPointerException();
                     }
                     bitField0_ |= 0x00000008;
@@ -1103,8 +923,7 @@ public final class ComicProtos
                     return this;
                 }
 
-                public Builder clearImgType()
-                {
+                public Builder clearImgType() {
                     bitField0_ = (bitField0_ & ~0x00000008);
                     imgType_ = com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.ImgType.PNG;
                     onChanged();
@@ -1115,31 +934,24 @@ public final class ComicProtos
                 private Object message_ = "";
 
                 @Override
-                public boolean hasMessage()
-                {
+                public boolean hasMessage() {
                     return ((bitField0_ & 0x00000010) == 0x00000010);
                 }
 
                 @Override
-                public String getMessage()
-                {
+                public String getMessage() {
                     Object ref = message_;
-                    if (!(ref instanceof String))
-                    {
+                    if (!(ref instanceof String)) {
                         String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
                         message_ = s;
                         return s;
-                    }
-                    else
-                    {
+                    } else {
                         return (String) ref;
                     }
                 }
 
-                public Builder setMessage(String value)
-                {
-                    if (value == null)
-                    {
+                public Builder setMessage(String value) {
+                    if (value == null) {
                         throw new NullPointerException();
                     }
                     bitField0_ |= 0x00000010;
@@ -1148,16 +960,14 @@ public final class ComicProtos
                     return this;
                 }
 
-                public Builder clearMessage()
-                {
+                public Builder clearMessage() {
                     bitField0_ = (bitField0_ & ~0x00000010);
                     message_ = getDefaultInstance().getMessage();
                     onChanged();
                     return this;
                 }
 
-                void setMessage(com.google.protobuf.ByteString value)
-                {
+                void setMessage(com.google.protobuf.ByteString value) {
                     bitField0_ |= 0x00000010;
                     message_ = value;
                     onChanged();
@@ -1166,8 +976,7 @@ public final class ComicProtos
                 // @@protoc_insertion_point(builder_scope:xkcdviewer.ComicList.Comic)
             }
 
-            static
-            {
+            static {
                 defaultInstance = new Comic(true);
                 defaultInstance.initFields();
             }
@@ -1180,55 +989,46 @@ public final class ComicProtos
         private java.util.List<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic> comics_;
 
         @Override
-        public java.util.List<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic> getComicsList()
-        {
+        public java.util.List<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic> getComicsList() {
             return comics_;
         }
 
         @Override
         public java.util.List<? extends com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder>
-                getComicsOrBuilderList()
-        {
+                getComicsOrBuilderList() {
             return comics_;
         }
 
         @Override
-        public int getComicsCount()
-        {
+        public int getComicsCount() {
             return comics_.size();
         }
 
         @Override
-        public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic getComics(int index)
-        {
+        public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic getComics(int index) {
             return comics_.get(index);
         }
 
         @Override
         public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder getComicsOrBuilder(
-                int index)
-        {
+                int index) {
             return comics_.get(index);
         }
 
-        private void initFields()
-        {
+        private void initFields() {
             comics_ = java.util.Collections.emptyList();
         }
 
         private byte memoizedIsInitialized = -1;
 
         @Override
-        public final boolean isInitialized()
-        {
+        public final boolean isInitialized() {
             byte isInitialized = memoizedIsInitialized;
             if (isInitialized != -1)
                 return isInitialized == 1;
 
-            for (int i = 0; i < getComicsCount(); i++)
-            {
-                if (!getComics(i).isInitialized())
-                {
+            for (int i = 0; i < getComicsCount(); i++) {
+                if (!getComics(i).isInitialized()) {
                     memoizedIsInitialized = 0;
                     return false;
                 }
@@ -1239,11 +1039,9 @@ public final class ComicProtos
 
         @Override
         public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException
-        {
+                        throws java.io.IOException {
             getSerializedSize();
-            for (int i = 0; i < comics_.size(); i++)
-            {
+            for (int i = 0; i < comics_.size(); i++) {
                 output.writeMessage(1, comics_.get(i));
             }
             getUnknownFields().writeTo(output);
@@ -1252,15 +1050,13 @@ public final class ComicProtos
         private int memoizedSerializedSize = -1;
 
         @Override
-        public int getSerializedSize()
-        {
+        public int getSerializedSize() {
             int size = memoizedSerializedSize;
             if (size != -1)
                 return size;
 
             size = 0;
-            for (int i = 0; i < comics_.size(); i++)
-            {
+            for (int i = 0; i < comics_.size(); i++) {
                 size += com.google.protobuf.CodedOutputStream
                         .computeMessageSize(1, comics_.get(i));
             }
@@ -1270,69 +1066,58 @@ public final class ComicProtos
         }
 
         @java.lang.Override
-        protected Object writeReplace() throws java.io.ObjectStreamException
-        {
+        protected Object writeReplace() throws java.io.ObjectStreamException {
             return super.writeReplace();
         }
 
         public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList parseFrom(
                 com.google.protobuf.ByteString data)
-                throws com.google.protobuf.InvalidProtocolBufferException
-        {
+                throws com.google.protobuf.InvalidProtocolBufferException {
             return newBuilder().mergeFrom(data).buildParsed();
         }
 
         public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList parseFrom(
                 com.google.protobuf.ByteString data,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws com.google.protobuf.InvalidProtocolBufferException
-        {
+                throws com.google.protobuf.InvalidProtocolBufferException {
             return newBuilder().mergeFrom(data, extensionRegistry)
                     .buildParsed();
         }
 
         public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList parseFrom(byte[] data)
-                throws com.google.protobuf.InvalidProtocolBufferException
-        {
+                throws com.google.protobuf.InvalidProtocolBufferException {
             return newBuilder().mergeFrom(data).buildParsed();
         }
 
         public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList parseFrom(
                 byte[] data,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws com.google.protobuf.InvalidProtocolBufferException
-        {
+                throws com.google.protobuf.InvalidProtocolBufferException {
             return newBuilder().mergeFrom(data, extensionRegistry)
                     .buildParsed();
         }
 
         public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList parseFrom(
                 java.io.InputStream input)
-                throws java.io.IOException
-        {
+                throws java.io.IOException {
             return newBuilder().mergeFrom(input).buildParsed();
         }
 
         public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList parseFrom(
                 java.io.InputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException
-        {
+                throws java.io.IOException {
             return newBuilder().mergeFrom(input, extensionRegistry)
                     .buildParsed();
         }
 
         public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList parseDelimitedFrom(
                 java.io.InputStream input)
-                throws java.io.IOException
-        {
+                throws java.io.IOException {
             Builder builder = newBuilder();
-            if (builder.mergeDelimitedFrom(input))
-            {
+            if (builder.mergeDelimitedFrom(input)) {
                 return builder.buildParsed();
-            }
-            else
-            {
+            } else {
                 return null;
             }
         }
@@ -1340,162 +1125,132 @@ public final class ComicProtos
         public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList parseDelimitedFrom(
                 java.io.InputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException
-        {
+                throws java.io.IOException {
             Builder builder = newBuilder();
-            if (builder.mergeDelimitedFrom(input, extensionRegistry))
-            {
+            if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
                 return builder.buildParsed();
-            }
-            else
-            {
+            } else {
                 return null;
             }
         }
 
         public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList parseFrom(
                 com.google.protobuf.CodedInputStream input)
-                throws java.io.IOException
-        {
+                throws java.io.IOException {
             return newBuilder().mergeFrom(input).buildParsed();
         }
 
         public static com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList parseFrom(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                throws java.io.IOException
-        {
+                throws java.io.IOException {
             return newBuilder().mergeFrom(input, extensionRegistry)
                     .buildParsed();
         }
 
-        public static Builder newBuilder()
-        {
+        public static Builder newBuilder() {
             return Builder.create();
         }
 
         @Override
-        public Builder newBuilderForType()
-        {
+        public Builder newBuilderForType() {
             return newBuilder();
         }
 
         public static Builder newBuilder(
-                com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList prototype)
-        {
+                com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList prototype) {
             return newBuilder().mergeFrom(prototype);
         }
 
         @Override
-        public Builder toBuilder()
-        {
+        public Builder toBuilder() {
             return newBuilder(this);
         }
 
         @java.lang.Override
         protected Builder newBuilderForType(
-                com.google.protobuf.GeneratedMessage.BuilderParent parent)
-        {
+                com.google.protobuf.GeneratedMessage.BuilderParent parent) {
             Builder builder = new Builder(parent);
             return builder;
         }
 
         public static final class Builder extends
                 com.google.protobuf.GeneratedMessage.Builder<Builder>
-                implements com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicListOrBuilder
-        {
+                implements com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicListOrBuilder {
             public static final com.google.protobuf.Descriptors.Descriptor
-                    getDescriptor()
-            {
+                    getDescriptor() {
                 return com.appspot.mancocktail.xkcdviewer.ComicProtos.internal_static_xkcdviewer_ComicList_descriptor;
             }
 
             @Override
             protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-                    internalGetFieldAccessorTable()
-            {
+                    internalGetFieldAccessorTable() {
                 return com.appspot.mancocktail.xkcdviewer.ComicProtos.internal_static_xkcdviewer_ComicList_fieldAccessorTable;
             }
 
             // Construct using
             // com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.newBuilder()
-            private Builder()
-            {
+            private Builder() {
                 maybeForceBuilderInitialization();
             }
 
-            private Builder(BuilderParent parent)
-            {
+            private Builder(BuilderParent parent) {
                 super(parent);
                 maybeForceBuilderInitialization();
             }
 
-            private void maybeForceBuilderInitialization()
-            {
-                if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders)
-                {
+            private void maybeForceBuilderInitialization() {
+                if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
                     getComicsFieldBuilder();
                 }
             }
 
-            private static Builder create()
-            {
+            private static Builder create() {
                 return new Builder();
             }
 
             @Override
-            public Builder clear()
-            {
+            public Builder clear() {
                 super.clear();
-                if (comicsBuilder_ == null)
-                {
+                if (comicsBuilder_ == null) {
                     comics_ = java.util.Collections.emptyList();
                     bitField0_ = (bitField0_ & ~0x00000001);
-                }
-                else
-                {
+                } else {
                     comicsBuilder_.clear();
                 }
                 return this;
             }
 
             @Override
-            public Builder clone()
-            {
+            public Builder clone() {
                 return create().mergeFrom(buildPartial());
             }
 
             @Override
             public com.google.protobuf.Descriptors.Descriptor
-                    getDescriptorForType()
-            {
+                    getDescriptorForType() {
                 return com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.getDescriptor();
             }
 
             @Override
-            public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList getDefaultInstanceForType()
-            {
+            public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList getDefaultInstanceForType() {
                 return com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList
                         .getDefaultInstance();
             }
 
             @Override
-            public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList build()
-            {
+            public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList build() {
                 com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList result = buildPartial();
-                if (!result.isInitialized())
-                {
+                if (!result.isInitialized()) {
                     throw newUninitializedMessageException(result);
                 }
                 return result;
             }
 
             private com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList buildParsed()
-                    throws com.google.protobuf.InvalidProtocolBufferException
-            {
+                    throws com.google.protobuf.InvalidProtocolBufferException {
                 com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList result = buildPartial();
-                if (!result.isInitialized())
-                {
+                if (!result.isInitialized()) {
                     throw newUninitializedMessageException(
                             result).asInvalidProtocolBufferException();
                 }
@@ -1503,23 +1258,18 @@ public final class ComicProtos
             }
 
             @Override
-            public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList buildPartial()
-            {
+            public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList buildPartial() {
                 com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList result = new com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList(
                         this);
                 @SuppressWarnings("unused")
                 int from_bitField0_ = bitField0_;
-                if (comicsBuilder_ == null)
-                {
-                    if (((bitField0_ & 0x00000001) == 0x00000001))
-                    {
+                if (comicsBuilder_ == null) {
+                    if (((bitField0_ & 0x00000001) == 0x00000001)) {
                         comics_ = java.util.Collections.unmodifiableList(comics_);
                         bitField0_ = (bitField0_ & ~0x00000001);
                     }
                     result.comics_ = comics_;
-                }
-                else
-                {
+                } else {
                     result.comics_ = comicsBuilder_.build();
                 }
                 onBuilt();
@@ -1527,47 +1277,33 @@ public final class ComicProtos
             }
 
             @Override
-            public Builder mergeFrom(com.google.protobuf.Message other)
-            {
-                if (other instanceof com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList)
-                {
+            public Builder mergeFrom(com.google.protobuf.Message other) {
+                if (other instanceof com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList) {
                     return mergeFrom((com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList) other);
-                }
-                else
-                {
+                } else {
                     super.mergeFrom(other);
                     return this;
                 }
             }
 
-            public Builder mergeFrom(com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList other)
-            {
+            public Builder mergeFrom(com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList other) {
                 if (other == com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList
                         .getDefaultInstance())
                     return this;
-                if (comicsBuilder_ == null)
-                {
-                    if (!other.comics_.isEmpty())
-                    {
-                        if (comics_.isEmpty())
-                        {
+                if (comicsBuilder_ == null) {
+                    if (!other.comics_.isEmpty()) {
+                        if (comics_.isEmpty()) {
                             comics_ = other.comics_;
                             bitField0_ = (bitField0_ & ~0x00000001);
-                        }
-                        else
-                        {
+                        } else {
                             ensureComicsIsMutable();
                             comics_.addAll(other.comics_);
                         }
                         onChanged();
                     }
-                }
-                else
-                {
-                    if (!other.comics_.isEmpty())
-                    {
-                        if (comicsBuilder_.isEmpty())
-                        {
+                } else {
+                    if (!other.comics_.isEmpty()) {
+                        if (comicsBuilder_.isEmpty()) {
                             comicsBuilder_.dispose();
                             comicsBuilder_ = null;
                             comics_ = other.comics_;
@@ -1575,9 +1311,7 @@ public final class ComicProtos
                             comicsBuilder_ =
                                     com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                                             getComicsFieldBuilder() : null;
-                        }
-                        else
-                        {
+                        } else {
                             comicsBuilder_.addAllMessages(other.comics_);
                         }
                     }
@@ -1587,12 +1321,9 @@ public final class ComicProtos
             }
 
             @Override
-            public final boolean isInitialized()
-            {
-                for (int i = 0; i < getComicsCount(); i++)
-                {
-                    if (!getComics(i).isInitialized())
-                    {
+            public final boolean isInitialized() {
+                for (int i = 0; i < getComicsCount(); i++) {
+                    if (!getComics(i).isInitialized()) {
 
                         return false;
                     }
@@ -1604,39 +1335,33 @@ public final class ComicProtos
             public Builder mergeFrom(
                     com.google.protobuf.CodedInputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-                    throws java.io.IOException
-            {
+                    throws java.io.IOException {
                 com.google.protobuf.UnknownFieldSet.Builder unknownFields =
                         com.google.protobuf.UnknownFieldSet.newBuilder(
                                 this.getUnknownFields());
-                while (true)
-                {
+                while (true) {
                     int tag = input.readTag();
-                    switch (tag)
-                    {
-                        case 0:
+                    switch (tag) {
+                    case 0:
+                        this.setUnknownFields(unknownFields.build());
+                        onChanged();
+                        return this;
+                    default: {
+                        if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
                             this.setUnknownFields(unknownFields.build());
                             onChanged();
                             return this;
-                        default:
-                        {
-                            if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag))
-                            {
-                                this.setUnknownFields(unknownFields.build());
-                                onChanged();
-                                return this;
-                            }
-                            break;
                         }
-                        case 10:
-                        {
-                            com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder subBuilder = com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic
+                        break;
+                    }
+                    case 10: {
+                        com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder subBuilder = com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic
                                     .newBuilder();
-                            input.readMessage(subBuilder, extensionRegistry);
-                            addComics(subBuilder.buildPartial());
-                            break;
-                        }
+                        input.readMessage(subBuilder, extensionRegistry);
+                        addComics(subBuilder.buildPartial());
+                        break;
+                    }
                     }
                 }
             }
@@ -1647,10 +1372,8 @@ public final class ComicProtos
             private java.util.List<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic> comics_ =
                     java.util.Collections.emptyList();
 
-            private void ensureComicsIsMutable()
-            {
-                if (!((bitField0_ & 0x00000001) == 0x00000001))
-                {
+            private void ensureComicsIsMutable() {
+                if (!((bitField0_ & 0x00000001) == 0x00000001)) {
                     comics_ = new java.util.ArrayList<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic>(
                             comics_);
                     bitField0_ |= 0x00000001;
@@ -1660,60 +1383,43 @@ public final class ComicProtos
             private com.google.protobuf.RepeatedFieldBuilder<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic, com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder, com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder> comicsBuilder_;
 
             @Override
-            public java.util.List<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic> getComicsList()
-            {
-                if (comicsBuilder_ == null)
-                {
+            public java.util.List<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic> getComicsList() {
+                if (comicsBuilder_ == null) {
                     return java.util.Collections.unmodifiableList(comics_);
-                }
-                else
-                {
+                } else {
                     return comicsBuilder_.getMessageList();
                 }
             }
 
             @Override
-            public int getComicsCount()
-            {
-                if (comicsBuilder_ == null)
-                {
+            public int getComicsCount() {
+                if (comicsBuilder_ == null) {
                     return comics_.size();
-                }
-                else
-                {
+                } else {
                     return comicsBuilder_.getCount();
                 }
             }
 
             @Override
             public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic getComics(
-                    int index)
-            {
-                if (comicsBuilder_ == null)
-                {
+                    int index) {
+                if (comicsBuilder_ == null) {
                     return comics_.get(index);
-                }
-                else
-                {
+                } else {
                     return comicsBuilder_.getMessage(index);
                 }
             }
 
             public Builder setComics(
-                    int index, com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic value)
-            {
-                if (comicsBuilder_ == null)
-                {
-                    if (value == null)
-                    {
+                    int index, com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic value) {
+                if (comicsBuilder_ == null) {
+                    if (value == null) {
                         throw new NullPointerException();
                     }
                     ensureComicsIsMutable();
                     comics_.set(index, value);
                     onChanged();
-                }
-                else
-                {
+                } else {
                     comicsBuilder_.setMessage(index, value);
                 }
                 return this;
@@ -1721,72 +1427,54 @@ public final class ComicProtos
 
             public Builder setComics(
                     int index,
-                    com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder builderForValue)
-            {
-                if (comicsBuilder_ == null)
-                {
+                    com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder builderForValue) {
+                if (comicsBuilder_ == null) {
                     ensureComicsIsMutable();
                     comics_.set(index, builderForValue.build());
                     onChanged();
-                }
-                else
-                {
+                } else {
                     comicsBuilder_.setMessage(index, builderForValue.build());
                 }
                 return this;
             }
 
             public Builder addComics(
-                    com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic value)
-            {
-                if (comicsBuilder_ == null)
-                {
-                    if (value == null)
-                    {
+                    com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic value) {
+                if (comicsBuilder_ == null) {
+                    if (value == null) {
                         throw new NullPointerException();
                     }
                     ensureComicsIsMutable();
                     comics_.add(value);
                     onChanged();
-                }
-                else
-                {
+                } else {
                     comicsBuilder_.addMessage(value);
                 }
                 return this;
             }
 
             public Builder addComics(
-                    int index, com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic value)
-            {
-                if (comicsBuilder_ == null)
-                {
-                    if (value == null)
-                    {
+                    int index, com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic value) {
+                if (comicsBuilder_ == null) {
+                    if (value == null) {
                         throw new NullPointerException();
                     }
                     ensureComicsIsMutable();
                     comics_.add(index, value);
                     onChanged();
-                }
-                else
-                {
+                } else {
                     comicsBuilder_.addMessage(index, value);
                 }
                 return this;
             }
 
             public Builder addComics(
-                    com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder builderForValue)
-            {
-                if (comicsBuilder_ == null)
-                {
+                    com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder builderForValue) {
+                if (comicsBuilder_ == null) {
                     ensureComicsIsMutable();
                     comics_.add(builderForValue.build());
                     onChanged();
-                }
-                else
-                {
+                } else {
                     comicsBuilder_.addMessage(builderForValue.build());
                 }
                 return this;
@@ -1794,111 +1482,84 @@ public final class ComicProtos
 
             public Builder addComics(
                     int index,
-                    com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder builderForValue)
-            {
-                if (comicsBuilder_ == null)
-                {
+                    com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder builderForValue) {
+                if (comicsBuilder_ == null) {
                     ensureComicsIsMutable();
                     comics_.add(index, builderForValue.build());
                     onChanged();
-                }
-                else
-                {
+                } else {
                     comicsBuilder_.addMessage(index, builderForValue.build());
                 }
                 return this;
             }
 
             public Builder addAllComics(
-                    java.lang.Iterable<? extends com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic> values)
-            {
-                if (comicsBuilder_ == null)
-                {
+                    java.lang.Iterable<? extends com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic> values) {
+                if (comicsBuilder_ == null) {
                     ensureComicsIsMutable();
                     super.addAll(values, comics_);
                     onChanged();
-                }
-                else
-                {
+                } else {
                     comicsBuilder_.addAllMessages(values);
                 }
                 return this;
             }
 
-            public Builder clearComics()
-            {
-                if (comicsBuilder_ == null)
-                {
+            public Builder clearComics() {
+                if (comicsBuilder_ == null) {
                     comics_ = java.util.Collections.emptyList();
                     bitField0_ = (bitField0_ & ~0x00000001);
                     onChanged();
-                }
-                else
-                {
+                } else {
                     comicsBuilder_.clear();
                 }
                 return this;
             }
 
-            public Builder removeComics(int index)
-            {
-                if (comicsBuilder_ == null)
-                {
+            public Builder removeComics(int index) {
+                if (comicsBuilder_ == null) {
                     ensureComicsIsMutable();
                     comics_.remove(index);
                     onChanged();
-                }
-                else
-                {
+                } else {
                     comicsBuilder_.remove(index);
                 }
                 return this;
             }
 
             public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder getComicsBuilder(
-                    int index)
-            {
+                    int index) {
                 return getComicsFieldBuilder().getBuilder(index);
             }
 
             @Override
             public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder getComicsOrBuilder(
-                    int index)
-            {
-                if (comicsBuilder_ == null)
-                {
+                    int index) {
+                if (comicsBuilder_ == null) {
                     return comics_.get(index);
-                }
-                else
-                {
+                } else {
                     return comicsBuilder_.getMessageOrBuilder(index);
                 }
             }
 
             @Override
             public java.util.List<? extends com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder>
-                    getComicsOrBuilderList()
-            {
-                if (comicsBuilder_ != null)
-                {
+                    getComicsOrBuilderList() {
+                if (comicsBuilder_ != null) {
                     return comicsBuilder_.getMessageOrBuilderList();
-                }
-                else
-                {
+                } else {
                     return java.util.Collections.unmodifiableList(comics_);
                 }
             }
 
-            public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder addComicsBuilder()
-            {
+            public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder addComicsBuilder() {
                 return getComicsFieldBuilder().addBuilder(
                         com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic
                                 .getDefaultInstance());
             }
 
             public com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder addComicsBuilder(
-                    int index)
-            {
+                    int index) {
                 return getComicsFieldBuilder().addBuilder(
                         index,
                         com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic
@@ -1906,17 +1567,14 @@ public final class ComicProtos
             }
 
             public java.util.List<com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder>
-                    getComicsBuilderList()
-            {
+                    getComicsBuilderList() {
                 return getComicsFieldBuilder().getBuilderList();
             }
 
             private com.google.protobuf.RepeatedFieldBuilder<
                     com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic, com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder, com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder>
-                    getComicsFieldBuilder()
-            {
-                if (comicsBuilder_ == null)
-                {
+                    getComicsFieldBuilder() {
+                if (comicsBuilder_ == null) {
                     comicsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
                             com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic, com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.Comic.Builder, com.appspot.mancocktail.xkcdviewer.ComicProtos.ComicList.ComicOrBuilder>(
                                     comics_,
@@ -1931,8 +1589,7 @@ public final class ComicProtos
             // @@protoc_insertion_point(builder_scope:xkcdviewer.ComicList)
         }
 
-        static
-        {
+        static {
             defaultInstance = new ComicList(true);
             defaultInstance.initFields();
         }
@@ -1946,14 +1603,12 @@ public final class ComicProtos
     private static com.google.protobuf.GeneratedMessage.FieldAccessorTable internal_static_xkcdviewer_ComicList_Comic_fieldAccessorTable;
 
     public static com.google.protobuf.Descriptors.FileDescriptor
-            getDescriptor()
-    {
+            getDescriptor() {
         return descriptor;
     }
 
     private static com.google.protobuf.Descriptors.FileDescriptor descriptor;
-    static
-    {
+    static {
         java.lang.String[] descriptorData = {
                 "\n\014comics.proto\022\nxkcdviewer\"\335\001\n\tComicList"
                         +
