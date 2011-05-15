@@ -11,11 +11,13 @@ import android.content.Intent;
 
 import com.appspot.mancocktail.xkcdviewer.ComicContentProvider.ComicTable;
 
-public class ComicSyncServiceHelper {
+public class ComicSyncServiceHelper
+{
     @SuppressWarnings("unused")
     private static final String TAG = "ComicSyncServericHelper";
 
-    public interface OnImageDownloadedListener {
+    public interface OnImageDownloadedListener
+    {
         void onImageDownloaded(Intent requestIntent);
     }
 
@@ -24,7 +26,8 @@ public class ComicSyncServiceHelper {
     private static final Map<Long, Set<OnImageDownloadedListener>> sOnImageDownloadedListeners =
             new HashMap<Long, Set<OnImageDownloadedListener>>();
 
-    public interface OnSyncCompleteListener {
+    public interface OnSyncCompleteListener
+    {
         void onSyncComplete(Intent requestIntent);
     }
 
@@ -33,108 +36,150 @@ public class ComicSyncServiceHelper {
     private static final Set<OnSyncCompleteListener> sOnSyncCompleteListeners =
             new HashSet<OnSyncCompleteListener>();
 
-    public static boolean downloadImageAndRegister(Context context, long comicId,
-            OnImageDownloadedListener listener) {
-        synchronized (sOnImageDownloadedListeners) {
+    public static boolean downloadImageAndRegister(final Context context, final long comicId,
+            final OnImageDownloadedListener listener)
+    {
+        synchronized (sOnImageDownloadedListeners)
+        {
             downloadImage(context, comicId);
             return registerOnImageDownloadedListener(listener, comicId);
         }
     }
 
-    public static void downloadImage(Context context, long comicId) {
-        Intent intent = new Intent(context, ComicSyncService.class);
+    public static boolean downloadImage(final Context context, final long comicId)
+    {
+        final Intent intent = new Intent(context, ComicSyncService.class);
         intent.setAction(ComicSyncService.ACTION_DOWNLOAD);
         intent.setData(ComicTable.getUri(comicId));
-        synchronized (sOnImageDownloadedListeners) {
-            sDownloadingImages.add(comicId);
-            context.startService(intent);
+        synchronized (sOnImageDownloadedListeners)
+        {
+            if (context.startService(intent) != null)
+            {
+                sDownloadingImages.add(comicId);
+                return true;
+            }
+            return false;
         }
     }
 
-    public static boolean syncAndRegister(Context context, OnSyncCompleteListener listener) {
-        synchronized (sOnSyncCompleteListeners) {
+    public static boolean syncAndRegister(final Context context,
+            final OnSyncCompleteListener listener)
+    {
+        synchronized (sOnSyncCompleteListeners)
+        {
             sync(context);
             return registerOnSyncCompleteListener(listener);
         }
     }
 
-    public static void sync(Context context) {
-        Intent intent = new Intent(context, ComicSyncService.class);
+    public static boolean sync(final Context context)
+    {
+        final Intent intent = new Intent(context, ComicSyncService.class);
         intent.setAction(Intent.ACTION_SYNC);
-        synchronized (sOnSyncCompleteListeners) {
-            // Only start a sync if one is currently not running.
-            if (!isSyncing) {
-                isSyncing = true;
-                context.startService(intent);
+        synchronized (sOnSyncCompleteListeners)
+        {
+            if (!isSyncing)
+            {
+                isSyncing = context.startService(intent) != null;
             }
+            return isSyncing;
         }
     }
 
-    public static boolean registerOnImageDownloadedListener(OnImageDownloadedListener listener,
-            long comicId) {
-        synchronized (sOnImageDownloadedListeners) {
-            Set<OnImageDownloadedListener> listeners;
+    public static boolean registerOnImageDownloadedListener(
+            final OnImageDownloadedListener listener, final long comicId)
+    {
+        synchronized (sOnImageDownloadedListeners)
+        {
+            final Set<OnImageDownloadedListener> listeners;
             if (sOnImageDownloadedListeners.containsKey(comicId))
+            {
                 listeners = sOnImageDownloadedListeners.get(comicId);
+            }
             else
+            {
                 listeners = new HashSet<OnImageDownloadedListener>(1);
+            }
             sOnImageDownloadedListeners.put(comicId, listeners);
             listeners.add(listener);
-
             return sDownloadingImages.contains(comicId);
         }
     }
 
-    public static void unregisterOnImageDownloadedListener(OnImageDownloadedListener listener) {
-        synchronized (sOnImageDownloadedListeners) {
+    public static void unregisterOnImageDownloadedListener(OnImageDownloadedListener listener)
+    {
+        synchronized (sOnImageDownloadedListeners)
+        {
             sOnImageDownloadedListeners.remove(listener);
         }
     }
 
-    public static boolean registerOnSyncCompleteListener(OnSyncCompleteListener listener) {
-        synchronized (sOnSyncCompleteListeners) {
+    public static boolean registerOnSyncCompleteListener(OnSyncCompleteListener listener)
+    {
+        synchronized (sOnSyncCompleteListeners)
+        {
             sOnSyncCompleteListeners.add(listener);
             return isSyncing;
         }
     }
 
-    public static void unregisterOnSyncCompleteListener(OnSyncCompleteListener listener) {
-        synchronized (sOnSyncCompleteListeners) {
+    public static void unregisterOnSyncCompleteListener(OnSyncCompleteListener listener)
+    {
+        synchronized (sOnSyncCompleteListeners)
+        {
             sOnSyncCompleteListeners.remove(listener);
         }
     }
 
     // Must not be called on the main thread.
-    public static void handledIntent(Intent requestIntent) {
+    public static void handledIntent(final Intent requestIntent)
+    {
         if (ComicSyncService.ACTION_DOWNLOAD.equals(requestIntent.getAction()))
-            synchronized (sOnImageDownloadedListeners) {
-                long comicId = ContentUris.parseId(requestIntent.getData());
+        {
+            final long comicId = ContentUris.parseId(requestIntent.getData());
+            synchronized (sOnImageDownloadedListeners)
+            {
                 sDownloadingImages.remove(comicId);
                 notifyOnImageDownloadListeners(sOnImageDownloadedListeners.get(comicId),
                         requestIntent);
             }
+        }
         else if (Intent.ACTION_SYNC.equals(requestIntent.getAction()))
-            synchronized (sOnSyncCompleteListeners) {
+        {
+            synchronized (sOnSyncCompleteListeners)
+            {
                 isSyncing = false;
                 notifyOnSyncCompleteListeners(sOnSyncCompleteListeners, requestIntent);
             }
+        }
     }
 
-    private static void notifyOnImageDownloadListeners(Set<OnImageDownloadedListener> listeners,
-            Intent requestIntent) {
+    private static void notifyOnImageDownloadListeners(
+            final Set<OnImageDownloadedListener> listeners, final Intent requestIntent)
+    {
         if (listeners != null)
-            for (OnImageDownloadedListener listener : listeners)
+        {
+            for (final OnImageDownloadedListener listener : listeners)
+            {
                 listener.onImageDownloaded(requestIntent);
+            }
+        }
     }
 
-    private static void notifyOnSyncCompleteListeners(Set<OnSyncCompleteListener> listeners,
-            Intent requestIntent) {
+    private static void notifyOnSyncCompleteListeners(final Set<OnSyncCompleteListener> listeners,
+            final Intent requestIntent)
+    {
         if (listeners != null)
+        {
             for (OnSyncCompleteListener listener : listeners)
+            {
                 listener.onSyncComplete(requestIntent);
+            }
+        }
     }
 
-    private ComicSyncServiceHelper() {
+    private ComicSyncServiceHelper()
+    {
         throw new AssertionError();
     }
 }
